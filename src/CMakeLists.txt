@@ -1,28 +1,20 @@
-# src/CMakeLists.txt
+# message("SUBFOLDER:")
 
-# Elenco dei file sorgente (aggiungi altri se ne hai)
-set(polygonalMesh_sources
-    Polyhedron.cpp
-    Cell0D.cpp
-    Cell1D.cpp
-    Cell2D.cpp
-    Cell3D.cpp
-    GeodesicBuilder.cpp
-)
+# message(${CMAKE_SOURCE_DIR})
+# message(${CMAKE_CURRENT_SOURCE_DIR})
+# message(${CMAKE_BINARY_DIR})
+# message(${CMAKE_CURRENT_BINARY_DIR})
+# message(${PROJECT_NAME})
+# message(${CMAKE_PROJECT_NAME})
 
-# Elenco dei file header
-set(polygonalMesh_headers
-    Polyhedron.hpp
-    Cell0D.hpp
-    Cell1D.hpp
-    Cell2D.hpp
-    Cell3D.hpp
-    GeodesicBuilder.hpp
-)
+list(APPEND src_headers ${CMAKE_CURRENT_SOURCE_DIR}/Polygon.hpp)
+list(APPEND src_headers ${CMAKE_CURRENT_SOURCE_DIR}/Polyhedron.hpp)
 
-# Includi la directory corrente come include path
-set(polygonalMesh_includes ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
+list(APPEND src_sources ${CMAKE_CURRENT_SOURCE_DIR}/Polyhedron.cpp)
+list(APPEND src_sources ${CMAKE_CURRENT_SOURCE_DIR}/Polygon.cpp)
 
-# Esporta anche sources e headers verso il livello superiore
-set(polygonalMesh_sources ${polygonalMesh_sources} PARENT_SCOPE)
-set(polygonalMesh_headers ${polygonalMesh_headers} PARENT_SCOPE)
+list(APPEND src_includes ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(src_headers ${src_headers} PARENT_SCOPE)
+set(src_sources ${src_sources} PARENT_SCOPE)
+set(src_includes ${src_includes} PARENT_SCOPE)

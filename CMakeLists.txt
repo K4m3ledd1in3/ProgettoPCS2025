@@ -1,93 +1,90 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.0.0)
 
-project(PolygonalMesh LANGUAGES CXX C VERSION 1.0.0)
+# facsimile is the project name
+project(Facsimile LANGUAGES C CXX VERSION 1.0.0)
 
 # Set C++ Standard
 ################################################################################
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-cmake_minimum_required(VERSION 3.9)
-project(PolygonalMesh VERSION 1.0.0 LANGUAGES CXX)
-
-# C++20 obbligatorio
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Avvisi in debug
+# IMPOSE WARNINGS ON DEBUG
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wextra -pedantic-errors")
 
-# Compatibilità Windows
+# IMPOSE CXX FLAGS FOR WINDOWS
 if (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
-endif()
+endif (WIN32)
 
-# Dependencies
+# Add dependencies
 ################################################################################
 
-# Eigen (per vettori, matrici, ecc.)
+## Eigen3
 find_package(Eigen3 CONFIG REQUIRED)
-set(POLYGONALMESH_LIBS Eigen3::Eigen)
+list(APPEND ${PROJECT_NAME}_LINKED_LIBRARIES PUBLIC Eigen3::Eigen)
 
-# Thread
+## Threads
 find_package(Threads REQUIRED)
-list(APPEND POLYGONALMESH_LIBS Threads::Threads)
+list(APPEND ${PROJECT_NAME}_LINKED_LIBRARIES PRIVATE Threads::Threads)
 
-# Google Test
+## GTest
 find_package(GTest REQUIRED)
-list(APPEND POLYGONALMESH_LIBS
-    GTest::gtest
-    GTest::gtest_main
-    GTest::gmock
-    GTest::gmock_main
-)
 
-# Struttura progetto
+list(APPEND ${PROJECT_NAME}_LINKED_LIBRARIES PRIVATE GTest::gtest)
+list(APPEND ${PROJECT_NAME}_LINKED_LIBRARIES PRIVATE GTest::gtest_main)
+list(APPEND ${PROJECT_NAME}_LINKED_LIBRARIES PRIVATE GTest::gmock)
+list(APPEND ${PROJECT_NAME}_LINKED_LIBRARIES PRIVATE GTest::gmock_main)
+
 ################################################################################
 
-# Sorgenti logici e modulo ParaView exporter
+# Vedi il valore delle seguenti variabili:
+
+# set(Pippo Bob Alice)
+# list(APPEND Pippo Fabio)
+# list(APPEND S Fabio)
+# message("${S}")
+
+# message(${CMAKE_SOURCE_DIR})
+# message(${CMAKE_CURRENT_SOURCE_DIR})
+# message(${CMAKE_BINARY_DIR})
+# message(${CMAKE_CURRENT_BINARY_DIR})
+# message(${PROJECT_NAME})
+# message(${CMAKE_PROJECT_NAME})
+
+###################### Add subdirectory ##################################
 add_subdirectory(src)
+add_subdirectory(src_test)
 add_subdirectory(ExportParaview)
-add_subdirectory(PolygonalMesh)
 
-# Includi tutti i file raccolti dalle sottodirectory
-add_executable(${PROJECT_NAME}
-    main.cpp
-    ${polygonalMesh_sources}
-    ${polygonalMesh_headers}
-    ${src_paraview_sources}
-    ${src_paraview_headers}
-)
+list(APPEND ${PROJECT_NAME}_sources ${src_sources} ${src_paraview_sources})
+list(APPEND ${PROJECT_NAME}_headers ${src_headers} ${src_paraview_headers})
+list(APPEND ${PROJECT_NAME}_includes ${src_includes} ${src_paraview_includes})
 
-# Include directories (headers locali)
-target_include_directories(${PROJECT_NAME}
-    PRIVATE
-        ${polygonalMesh_includes}
-        ${src_paraview_includes}
-)
+list(APPEND ${PROJECT_NAME}_TEST_sources ${${PROJECT_NAME}_sources} ${src_test_sources})
+list(APPEND ${PROJECT_NAME}_TEST_headers ${${PROJECT_NAME}_headers} ${src_test_headers})
+list(APPEND ${PROJECT_NAME}_TEST_includes ${${PROJECT_NAME}_includes} ${src_test_includes})
 
-# Link alle librerie
-target_link_libraries(${PROJECT_NAME} PRIVATE ${POLYGONALMESH_LIBS})
+#################### Copy file ################################
 
-# Opzioni per librerie condivise (utile con ParaView)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/ListPolygons DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+############################## Add executable ##################################################
+
+# Add two executables: Facsimile and Facsimile_TEST
+
+add_executable(${PROJECT_NAME} main.cpp
+      ${${PROJECT_NAME}_sources}
+      ${${PROJECT_NAME}_headers})
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${${CMAKE_PROJECT_NAME}_includes})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_LINKED_LIBRARIES})
 target_compile_options(${PROJECT_NAME} PUBLIC -fPIC)
 
-# Copia automatica dei file di input (se previsti)
-file(COPY
-    ${CMAKE_CURRENT_SOURCE_DIR}/PolygonalMesh/Cell0Ds.csv
-    ${CMAKE_CURRENT_SOURCE_DIR}/PolygonalMesh/Cell1Ds.csv
-    ${CMAKE_CURRENT_SOURCE_DIR}/PolygonalMesh/Cell2Ds.csv
-    DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-)
+add_executable(${PROJECT_NAME}_TEST main_test.cpp
+      ${${PROJECT_NAME}_TEST_sources}
+      ${${PROJECT_NAME}_TEST_headers})
 
-# Target per i test
-enable_testing()
+target_include_directories(${PROJECT_NAME}_TEST PUBLIC ${${CMAKE_PROJECT_NAME}_TEST_includes})
+target_link_libraries(${PROJECT_NAME}_TEST PUBLIC ${${PROJECT_NAME}_LINKED_LIBRARIES})
+target_compile_options(${PROJECT_NAME}_TEST PUBLIC -fPIC)
 
-add_executable(${PROJECT_NAME}_tests
-    test/main_test.cpp
-    ${polygonalMesh_test_sources}
-)
-
-target_link_libraries(${PROJECT_NAME}_tests PRIVATE ${POLYGONALMESH_LIBS})
-target_include_directories(${PROJECT_NAME}_tests PRIVATE ${polygonalMesh_includes})
-add_test(NAME PolygonalMeshTests COMMAND ${PROJECT_NAME}_tests)
