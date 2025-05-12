@@ -11,6 +11,10 @@ using namespace std;
 
 int main()
 {
+	Tetrahedron t;
+	t.display();
+	Cube c;
+	c.display();
 /*    int id = 1;
     double phi = M_PI / 4;
     double psi = M_PI / 4;
@@ -35,7 +39,6 @@ int main()
   	phi+=dPsi;
     Face pentagon_2 = projectPentagonToSphere(phi, psi, dPhi, dPsi, id,4);
 	printFace(pentagon_2);*/
-	Tetrahedron t;
-	t.display();
+
 	return 0;
 }

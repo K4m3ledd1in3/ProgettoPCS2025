@@ -55,7 +55,16 @@ namespace PolyhedronLibrary{
 				cout << "(" << vertices[i].x << "," << vertices[i].y << "," << vertices[i].z << ")" << endl;}
 		}
 		};
-
+	class Octahedron{
+		public:
+		vector<Face> faces;
+		vector <Edge> edge;
+		vector <Vertex> vertices;
+		unsigned int b,c;
+		vector<unsigned int> code = {3,4};
+		Octahedron()=default;
+	}
+	;
 	class Cube{
 			public:
 		vector<Face> faces;
@@ -68,6 +77,9 @@ namespace PolyhedronLibrary{
 		vector<unsigned int> code = {3,4};
 		
 		Cube(){
+		vertices.reserve(nvertices);
+		edge.reserve(nedges);
+		faces.reserve(nfaces);
 		vertices = {
 		Vertex(1.0,1.0,1.0), 
 		Vertex(1.0,1.0,-1.0), 
@@ -82,31 +94,31 @@ namespace PolyhedronLibrary{
 		 	vertices[i].normalize();
 		 }
 		edge = {
-		Edge(vertices[0], vertices[1]),
-		Edge(vertices[0], vertices[2]),
-		Edge(vertices[0], vertices[3]),
-		Edge(vertices[1], vertices[5]),
-		Edge(vertices[1], vertices[6]),
-		Edge(vertices[2], vertices[5]),
-		Edge(vertices[2], vertices[4]),
-		Edge(vertices[3], vertices[4]),
-		Edge(vertices[3], vertices[6]),
-		Edge(vertices[4], vertices[7]),
-		Edge(vertices[5], vertices[7]),
-		Edge(vertices[6], vertices[7])
+		Edge(vertices[0], vertices[1],0),
+		Edge(vertices[0], vertices[2],1),
+		Edge(vertices[0], vertices[3],2),
+		Edge(vertices[1], vertices[5],3),
+		Edge(vertices[1], vertices[6],4),
+		Edge(vertices[2], vertices[5],5),
+		Edge(vertices[2], vertices[4],6),
+		Edge(vertices[3], vertices[4],7),
+		Edge(vertices[3], vertices[6],8),
+		Edge(vertices[4], vertices[7],9),
+		Edge(vertices[5], vertices[7],10),
+		Edge(vertices[6], vertices[7],11)
 		};
 		//devo aggiungere le facce del cubo
-	};
-	class Octahedron{
-		public:
-		vector<Face> faces;
-		vector <Edge> edge;
-		vector <Vertex> vertices;
-		unsigned int b,c;
-		vector<unsigned int> code = {3,4};
-		Octahedron()=default;
 	}
-	;
+	Octahedron dual(){
+			Octahedron c;
+			return c;
+		}
+	void display() const{
+			for(size_t i=0; i<vertices.size(); i++){
+				cout << "(" << vertices[i].x << "," << vertices[i].y << "," << vertices[i].z << ")" << endl;}
+		}
+	};
+
 	class Dodecahedron{
 		public:
 		vector<Face> faces;
