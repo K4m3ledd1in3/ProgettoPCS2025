@@ -18,7 +18,6 @@ Vertex sphericalToCartesian(double phi, double psi) {
 }
 //
 
-
 Face projectTriangleToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id) {
     Face f;
     vector<Vertex> vertices = {
@@ -95,7 +94,7 @@ void printFace(const Face& f) {
         cout << "Edge ID: " << e.id 
              << " | From: (" << e.origin.x << ", " << e.origin.y << ", " << e.origin.z << ")"
              << " To: (" << e.end.x << ", " << e.end.y << ", " << e.end.z << ")"
-             << " Length: " << e.length() << endl;
+             << " Length: " << e.length() << " Length2D_XY: " << e.length_2d_xy() << endl;
     }
     cout << endl;
 }

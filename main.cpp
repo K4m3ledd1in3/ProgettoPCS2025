@@ -11,7 +11,7 @@ using namespace std;
 
 int main()
 {
-    int id = 1;
+/*    int id = 1;
     double phi = M_PI / 4;
     double psi = M_PI / 4;
     double dPhi = M_PI / 6;
@@ -23,6 +23,7 @@ int main()
     Face triangle = projectTriangleToSphere(phi, psi, dPhi, dPsi, id,1);
     printFace(triangle);
     phi+=phi;
+    
     Face triangle_2 = projectTriangleToSphere(phi, psi, dPhi, dPsi, id,2);
     printFace(triangle_2);
     
@@ -31,7 +32,10 @@ int main()
     Face pentagon = projectPentagonToSphere(phi, psi, dPhi, dPsi, id,3);
 	printFace(pentagon);
   	phi+=dPhi;
+  	phi+=dPsi;
     Face pentagon_2 = projectPentagonToSphere(phi, psi, dPhi, dPsi, id,4);
-	printFace(pentagon_2);
+	printFace(pentagon_2);*/
+	Tetrahedron t;
+	t.display();
 	return 0;
 }
