@@ -35,25 +35,10 @@ list(APPEND ${PROJECT_NAME}_LINKED_LIBRARIES PRIVATE GTest::gtest_main)
 list(APPEND ${PROJECT_NAME}_LINKED_LIBRARIES PRIVATE GTest::gmock)
 list(APPEND ${PROJECT_NAME}_LINKED_LIBRARIES PRIVATE GTest::gmock_main)
 
-################################################################################
-
-# Vedi il valore delle seguenti variabili:
-
-# set(Pippo Bob Alice)
-# list(APPEND Pippo Fabio)
-# list(APPEND S Fabio)
-# message("${S}")
-
-# message(${CMAKE_SOURCE_DIR})
-# message(${CMAKE_CURRENT_SOURCE_DIR})
-# message(${CMAKE_BINARY_DIR})
-# message(${CMAKE_CURRENT_BINARY_DIR})
-# message(${PROJECT_NAME})
-# message(${CMAKE_PROJECT_NAME})
 
 ###################### Add subdirectory ##################################
 add_subdirectory(src)
-add_subdirectory(src_test)
+#add_subdirectory(src_test)
 add_subdirectory(ExportParaview)
 
 list(APPEND ${PROJECT_NAME}_sources ${src_sources} ${src_paraview_sources})
@@ -71,7 +56,7 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/ListPolygons DESTINATION ${CMAKE_CURRENT_B
 ############################## Add executable ##################################################
 
 # Add two executables: Facsimile and Facsimile_TEST
-
+set(PROJECT_NAME ProgettoPCS2025)
 add_executable(${PROJECT_NAME} main.cpp
       ${${PROJECT_NAME}_sources}
       ${${PROJECT_NAME}_headers})
@@ -79,12 +64,13 @@ add_executable(${PROJECT_NAME} main.cpp
 target_include_directories(${PROJECT_NAME} PUBLIC ${${CMAKE_PROJECT_NAME}_includes})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_LINKED_LIBRARIES})
 target_compile_options(${PROJECT_NAME} PUBLIC -fPIC)
+target_link_libraries(ProgettoPCS2025 PUBLIC Eigen3::Eigen)
 
-add_executable(${PROJECT_NAME}_TEST main_test.cpp
-      ${${PROJECT_NAME}_TEST_sources}
-      ${${PROJECT_NAME}_TEST_headers})
+#add_executable(${PROJECT_NAME}_TEST main_test.cpp
+ #     ${${PROJECT_NAME}_TEST_sources}
+  #    ${${PROJECT_NAME}_TEST_headers})
 
-target_include_directories(${PROJECT_NAME}_TEST PUBLIC ${${CMAKE_PROJECT_NAME}_TEST_includes})
-target_link_libraries(${PROJECT_NAME}_TEST PUBLIC ${${PROJECT_NAME}_LINKED_LIBRARIES})
-target_compile_options(${PROJECT_NAME}_TEST PUBLIC -fPIC)
+#target_include_directories(${PROJECT_NAME}_TEST PUBLIC ${${CMAKE_PROJECT_NAME}_TEST_includes})
+#target_link_libraries(${PROJECT_NAME}_TEST PUBLIC ${${PROJECT_NAME}_LINKED_LIBRARIES})
+#target_compile_options(${PROJECT_NAME}_TEST PUBLIC -fPIC)
 
