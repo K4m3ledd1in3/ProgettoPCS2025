@@ -66,7 +66,7 @@ Vertex sphericalToCartesian(double phi, double psi);
 Face projectPentagonToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id) ;
 Face projectSquareToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id);
 Face projectTriangleToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id);
-void printFace(const Face& f) ;
+void printFace(Face f) ;
 
  }
  
