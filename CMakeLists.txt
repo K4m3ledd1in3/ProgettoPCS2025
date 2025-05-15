@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 # facsimile is the project name
-project(Facsimile LANGUAGES C CXX VERSION 1.0.0)
+project(ProgettoPCS2025 LANGUAGES C CXX VERSION 1.0.0)
 
 # Set C++ Standard
 ################################################################################

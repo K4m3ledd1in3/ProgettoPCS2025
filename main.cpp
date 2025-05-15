@@ -11,19 +11,22 @@ using namespace std;
 
 int main()
 {
+	cout << "Tetraedro" << endl;
 	Tetrahedron t;
 	t.printFaces();
 	cout << endl << endl;
 	t.dual().printFaces();
 	Cube c;
-	cout << "c" << endl;
+	cout << "Cubo" << endl;
 	c.printFaces();
 	Octahedron o;
-	cout << "o" << endl;
+	cout << "Ottaedro" << endl;
 	o.printFaces();
 	Dodecahedron cc;
 	cout << "CC" << endl;
 	cc.printFaces();
-	
+	Icosahedron i;
+	cout << "ICC" << endl;
+	i.printFaces();
 	return 0;
 }
