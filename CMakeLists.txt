@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 # facsimile is the project name
-project(Facsimile LANGUAGES C CXX VERSION 1.0.0)
+project(ProgettoPCS2025 LANGUAGES C CXX VERSION 1.0.0)
 
 # Set C++ Standard
 ################################################################################
@@ -73,4 +73,5 @@ target_link_libraries(ProgettoPCS2025 PUBLIC Eigen3::Eigen)
 #target_include_directories(${PROJECT_NAME}_TEST PUBLIC ${${CMAKE_PROJECT_NAME}_TEST_includes})
 #target_link_libraries(${PROJECT_NAME}_TEST PUBLIC ${${PROJECT_NAME}_LINKED_LIBRARIES})
 #target_compile_options(${PROJECT_NAME}_TEST PUBLIC -fPIC)
+
 

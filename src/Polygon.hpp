@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include "Eigen/Eigen"
 #include <iostream>
 #include <vector>
@@ -68,5 +67,5 @@ Face projectSquareToSphere(double phi, double psi, double dPhi, double dPsi, int
 Face projectTriangleToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id);
 void printFace(Face f) ;
 
- }
+}
  
