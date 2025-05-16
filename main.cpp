@@ -10,8 +10,12 @@ using namespace PolyhedronLibrary;
 using namespace std;
 
 int main()
+<<<<<<< HEAD
 {
 	cout << "Tetraedro" << endl;
+=======
+{	cout << "Tetraedro" << endl;
+>>>>>>> 0f6c835ecb0ebcd3a029c9c293c420d94b786414
 	Tetrahedron t;
 	t.printFaces();
 	cout << endl << endl;
@@ -23,7 +27,7 @@ int main()
 	cout << "Ottaedro" << endl;
 	o.printFaces();
 	Dodecahedron cc;
-	cout << "CC" << endl;
+	cout << "Dodecaedro" << endl;
 	cc.printFaces();
 	Icosahedron i;
 	cout << "ICC" << endl;

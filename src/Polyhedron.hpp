@@ -70,6 +70,7 @@ namespace PolyhedronLibrary{
 		const unsigned int nfaces = 6;
 		const unsigned int nvertices = 8;
 		const vector<unsigned int> code = {3,4};
+<<<<<<< HEAD
 Cube() {
     vertices.reserve(nvertices);
     edge.reserve(nedges);
@@ -129,6 +130,58 @@ Cube() {
     faces[5] = Face(buff_v_6, buff_6, 5, 0);
 }
 
+=======
+		Cube(){
+		vertices.reserve(nvertices);
+		edge.reserve(nedges);
+		faces.resize(nfaces);
+		vertices = {
+		Vertex(-1.0,-1.0,-1.0,0), 
+		Vertex(1.0,-1.0,-1.0,1), 
+		Vertex(1.0,1.0,-1.0,2),
+		Vertex(-1.0,1.0,-1.0,3),
+		Vertex(-1.0,-1.0,1.0,4), 
+		Vertex(1.0,-1.0,1.0,5), 
+		Vertex(1.0,1.0,1.0,6),
+		Vertex(-1.0,1.0,1.0,7)				
+		};
+		for(size_t i = 0; i<nvertices; i++){
+		 	vertices[i].normalize();
+		 }	 
+		edge = {
+		Edge(vertices[0], vertices[1],0),
+		Edge(vertices[1], vertices[2],1),
+		Edge(vertices[2], vertices[3],2),
+		Edge(vertices[3], vertices[0],3),
+		Edge(vertices[5], vertices[4],4),
+		Edge(vertices[6], vertices[5],5),
+		Edge(vertices[7], vertices[6],6),
+		Edge(vertices[7], vertices[4],7),
+		Edge(vertices[4], vertices[0],8),
+		Edge(vertices[5], vertices[1],9),
+		Edge(vertices[6], vertices[2],10),
+		Edge(vertices[7], vertices[3],11)
+		};
+		vector<Edge> buff_1 ={edge[0], edge[1],edge[2],edge[3]};
+		vector<Edge> buff_2 ={edge[4], edge[5], edge[6], edge[7]};
+		vector<Edge> buff_3 ={edge[0],edge[9],edge[4],edge[8]};
+		vector<Edge> buff_4 ={edge[1],edge[10],edge[5],edge[9]};
+		vector<Edge> buff_5 ={edge[2],edge[11],edge[6],edge[10]};
+		vector<Edge> buff_6 ={edge[3],edge[8],edge[7],edge[11]};
+		vector<Vertex> buff_v_1 = {vertices[0], vertices[1], vertices[2], vertices[3]};
+		vector<Vertex> buff_v_2 = {vertices[4], vertices[5], vertices[6], vertices[7]};
+		vector<Vertex> buff_v_3 = {vertices[0], vertices[1], vertices[5], vertices[4]};
+		vector<Vertex> buff_v_4 = {vertices[1], vertices[2], vertices[6], vertices[5]};
+		vector<Vertex> buff_v_5 = {vertices[2], vertices[3], vertices[7], vertices[6]};
+		vector<Vertex> buff_v_6 = {vertices[3], vertices[0], vertices[4], vertices[7]};
+		faces[0] = Face(buff_v_1, buff_1, 0 , 0);
+		faces[1] = Face(buff_v_2, buff_2, 1 , 0);
+		faces[2] = Face(buff_v_3, buff_3, 2 , 0);
+		faces[3] = Face(buff_v_4, buff_4, 3 , 0);
+		faces[4] = Face(buff_v_5, buff_5, 4 , 0);
+		faces[5] = Face(buff_v_6, buff_6, 5 , 0);		
+	}
+>>>>>>> 0f6c835ecb0ebcd3a029c9c293c420d94b786414
 
 	void display() const{
 			for(size_t i=0; i<vertices.size(); i++){
