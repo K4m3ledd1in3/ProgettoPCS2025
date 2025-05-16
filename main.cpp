@@ -11,7 +11,6 @@ using namespace std;
 
 int main()
 {	cout << "Tetraedro" << endl;
-
 	Tetrahedron t;
 	t.printFaces();
 	cout << endl << endl;
@@ -28,5 +27,6 @@ int main()
 	Icosahedron i;
 	cout << "ICC" << endl;
 	i.printFaces();
+
 	return 0;
 }

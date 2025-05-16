@@ -8,8 +8,8 @@ using namespace Eigen;
 
 namespace PolygonalLibrary{
 
-Vertex sphericalToCartesian(double phi, double psi) {
-    return Vertex(
+vertex sphericalToCartesian(double phi, double psi) {
+    return vertex(
         cos(phi) * sin(psi),
         sin(phi) * sin(psi),
         cos(psi)
@@ -31,4 +31,6 @@ void printFace(Face f) {
 Edge reverseEdge(Edge e){
 	return Edge(e.end, e.origin, e.id);
 }
+
+
 }

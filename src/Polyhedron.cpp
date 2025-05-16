@@ -8,10 +8,10 @@ using namespace Eigen;
 using namespace PolygonalLibrary;
 
 namespace PolyhedronLibrary{
-	vector<Vertex> ShortestPath(vector<Vertex>& v, vector<Edge>& e){
+	vector<vertex> ShortestPath(vector<vertex>& v, vector<Edge>& e){
 		return v;
 	}
-
+	
 	
 	
 	
