@@ -67,7 +67,7 @@ namespace PolyhedronLibrary{
 		vector <Edge> edge;
 		vector <Vertex> vertices;
 		const unsigned int nedges = 12;
-		const unsigned int nfaces = 8;
+		const unsigned int nfaces = 6;
 		const unsigned int nvertices = 8;
 		const vector<unsigned int> code = {3,4};
 		Cube(){
@@ -92,14 +92,14 @@ namespace PolyhedronLibrary{
 		Edge(vertices[1], vertices[2],1),
 		Edge(vertices[2], vertices[3],2),
 		Edge(vertices[3], vertices[0],3),
-		Edge(vertices[4], vertices[5],4),
-		Edge(vertices[5], vertices[6],5),
-		Edge(vertices[6], vertices[7],6),
+		Edge(vertices[5], vertices[4],4),
+		Edge(vertices[6], vertices[5],5),
+		Edge(vertices[7], vertices[6],6),
 		Edge(vertices[7], vertices[4],7),
-		Edge(vertices[0], vertices[4],8),
-		Edge(vertices[1], vertices[5],9),
-		Edge(vertices[2], vertices[6],10),
-		Edge(vertices[3], vertices[7],11)
+		Edge(vertices[4], vertices[0],8),
+		Edge(vertices[5], vertices[1],9),
+		Edge(vertices[6], vertices[2],10),
+		Edge(vertices[7], vertices[3],11)
 		};
 		vector<Edge> buff_1 ={edge[0], edge[1],edge[2],edge[3]};
 		vector<Edge> buff_2 ={edge[4], edge[5], edge[6], edge[7]};
