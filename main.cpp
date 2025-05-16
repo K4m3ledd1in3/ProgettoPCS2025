@@ -11,6 +11,7 @@ using namespace std;
 
 int main()
 {	cout << "Tetraedro" << endl;
+
 	Tetrahedron t;
 	t.printFaces();
 	cout << endl << endl;
@@ -24,6 +25,7 @@ int main()
 	Dodecahedron cc;
 	cout << "Dodecaedro" << endl;
 	cc.printFaces();
+<<<<<<< HEAD
 	
 	/*//Per visualizzare online le mesh
     Gedim::UCDUtilities utilities;
@@ -53,5 +55,10 @@ int main()
 
     // 4. Esporta il file per ParaView
     utils.ExportPolyhedra("tetraedro.inp", coords, celle);
+=======
+	Icosahedron i;
+	cout << "ICC" << endl;
+	i.printFaces();
+>>>>>>> bb02cd1349c5864febbc1406ea952d7be64b5130
 	return 0;
 }

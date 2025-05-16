@@ -26,6 +26,13 @@ class Vertex {
     	y/=buff;
     	z/=buff;	
 	}
+/*	Vertex& operator=(const Vertex& other){
+		this->x = other.x;
+		this->y = other.y;
+		this->z = other.z;
+		this->id = other.id;
+		return *this;
+	}*/
 };
 class Edge {
 	public:
@@ -44,9 +51,15 @@ class Edge {
     double length_2d_xy() const{
     	        return sqrt((origin.x - end.x) * (origin.x - end.x) +
                     (origin.y - end.y) * (origin.y - end.y));
-	} 
-	
+	}
+	Edge reverseEdge() const{
+	return Edge(end, origin, id);
+	}
+
+
 };
+
+
 class Face {
 	public:
     vector<Edge> edges;
@@ -66,6 +79,7 @@ Face projectPentagonToSphere(double phi, double psi, double dPhi, double dPsi, i
 Face projectSquareToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id);
 Face projectTriangleToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id);
 void printFace(Face f) ;
+Edge reverseEdge(Edge e);
 
 }
  
