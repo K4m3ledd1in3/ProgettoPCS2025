@@ -4,6 +4,9 @@
 #include "Polygon.hpp"
 #include <iostream>
 #include <cmath>
+#include <vector>
+#include <algorithm>
+#include <algorithm>
 using namespace std;
 using namespace Eigen;
 using namespace PolygonalLibrary;
@@ -555,60 +558,151 @@ faces[11] = Face(
 			q = q0;
 		}
 		
-		mesh_Polyhedron Triangulation(){
-					unsigned int buff_f = NumFcs;
-					unsigned int buff_v = NumVer;
-					unsigned int buff_e = NumEdg;
-			if((b==0 && c!=0) ||(b!=0 && c==0)){
-				if(p==3){
-					unsigned int T = b*b + c*b + c*c;
-					switch(q){
-						case 3:	 
-							NumVer = 2*T + 2 ; NumEdg = 6*T; NumFcs = 4*T ;
-							break;
-						case 4:
-							NumVer = 4*T + 2 ; NumEdg = 2*T; NumFcs = 8*T ;
-							break;
-						case 5:
-							NumVer = 10*T ; NumEdg = 30*T; NumFcs = 20*T ;							
-							break;
-								
-					}
-					faces.resize(NumFcs);
-					edges.reserve(NumEdg);
-					vertices.reserve(NumVer);
-					for(size_t i = 0; i<NumFcs; i++){
-							for(auto e: faces[i].edges){
-								for(size_t k = 0; k<b-1; k++){
-									bool flag = true;
-									vertex v(
-									(e.end.x - e.origin.x) * (k+1) / b + e.origin.x, 
-									(e.end.y - e.origin.y) * (k+1) / b + e.origin.y,
-									(e.end.z - e.origin.z) * (k+1) / b + e.origin.z, 
-									buff_v, k+1);
-									for(auto h: vertices){
-										if(v==h){
-										   flag = false;
-										}
-									}
-									if(flag){
-									vertices.push_back(v);
-									buff_v++;
-								    }
-								}				
-						}
-						
-					}
-					
-					for(auto v: vertices){
-							cout << "(" << v.x << "," << v.y << "," << v.z << ")" << ", " << v.marker <<  endl ;}
-					}
-					}
-								return *this;
+void Triangulation() {
+    vector<Edge> edges_1;
+    vector<Face> faces_1;
+    vector<vertex> ver_1;
+
+    if ((b == 0 && c != 0) || (b != 0 && c == 0)) {
+        if (p == 3) {
+            unsigned int T = b * b + c * b + c * c;
+
+            switch (q) {
+                case 3:
+                    NumVer = 2 * T + 2; NumEdg = 6 * T; NumFcs = 4 * T;
+                    break;
+                case 4:
+                    NumVer = 4 * T + 2; NumEdg = 2 * T; NumFcs = 8 * T;
+                    break;
+                case 5:
+                    NumVer = 10 * T; NumEdg = 30 * T; NumFcs = 20 * T;
+                    break;
+            }
+
+            faces_1.reserve(NumFcs);
+            edges_1.reserve(NumEdg);
+            edges.reserve(NumEdg);
+            vertices.reserve(NumVer);
+            ver_1.reserve(NumVer);
+
+            unsigned int id_edge = 0;
+            unsigned int id_faces = 0;
+            vertex v;
+            map<unsigned int, vector<vertex>> Triangle;
+            vector<size_t> index_edges(3);
+
+   for (size_t i = 0; i < faces.size(); i++) {
+                int count = 0;
+
+                for (size_t j = 0; j < edges.size(); j++) {
+                    for (auto& e : faces[i].edges) {
+                        if ((edges[j].origin == e.origin && edges[j].end == e.end) ||
+                            (edges[j].end == e.origin && edges[j].origin == e.end)) {
+                            if (count < 3) {
+                                index_edges[count] = j;
+                                count++;
+                            }
+                        }
+                    }
+                }
+
+ 
+               /* if (count != 3) {
+                    std::cerr << "Warning: Could not find 3 edges for face " << i << std::endl;
+                    continue;
+                }*/
+
+                size_t cv = 0;
+
+                for (size_t k = 0; k < b; k++) {
+                    Triangle[k].resize(k + 2);
+
+
+                    if (edges[index_edges[1]].end != edges[index_edges[0]].end) {
+                        v = edges[index_edges[1]].end;
+                    } else {
+                        v = edges[index_edges[1]].origin;
+                    }
+                    vertex v0(
+                        (edges[index_edges[0]].end.x - edges[index_edges[0]].origin.x) * (b- k - 1) / float(b) + edges[index_edges[0]].origin.x,
+                        (edges[index_edges[0]].end.y - edges[index_edges[0]].origin.y) * (b - k - 1) / float(b) + edges[index_edges[0]].origin.y,
+                        (edges[index_edges[0]].end.z - edges[index_edges[0]].origin.z) * (b - k - 1) / float(b) + edges[index_edges[0]].origin.z,
+                         cv++
+                    );
+
+                    vertex v1(
+                        (v.x - edges[index_edges[0]].end.x) * (k + 1) / float(b) + edges[index_edges[0]].end.x,
+                        (v.y - edges[index_edges[0]].end.y) * (k + 1) / float(b) + edges[index_edges[0]].end.y,
+                        (v.z - edges[index_edges[0]].end.z) * (k + 1) / float(b) + edges[index_edges[0]].end.z,
+                        cv
+                    );
+
+                    Triangle[k][0] = v0;
+                    Triangle[k][1] = v1;
+
+                    for (size_t j = 0; j < k; j++) {
+                        vertex v2(
+                            (v1.x - v0.x) * (j + 1) / float(k + 1) + v0.x,
+                            (v1.y - v0.y) * (j + 1 ) / float(k + 1) + v0.y,
+                            (v1.z - v0.z) * (j + 1) / float(k + 1) + v0.z,
+                            cv++
+                        );
+                        Triangle[k][j + 2] = v2;
+                    }
+
+                    if (k > 0) {
+                        for (size_t j = 0; j < k + 1; j++) {
+                            
+                            if (j + 1 >= Triangle[k].size() || j >= Triangle[k - 1].size()) continue;
+
+                            Edge e0(Triangle[k - 1][j], Triangle[k][j], id_edge++);
+                            Edge e1(Triangle[k][j], Triangle[k][j + 1], id_edge++);
+                            Edge e2(Triangle[k][j + 1], Triangle[k - 1][j], id_edge++);
+
+                            vector<Edge> e = {e0, e1, e2};
+                            vector<vertex> ver = {Triangle[k - 1][j], Triangle[k][j], Triangle[k][j + 1]};
+                            faces_1.push_back(Face(ver, e, id_faces++, 0));
+
+                            edges_1.push_back(e0);
+                            edges_1.push_back(e1);
+                            edges_1.push_back(e2);
+
+                            ver_1.push_back(Triangle[k - 1][j]);
+                            ver_1.push_back(Triangle[k][j]);
+                            ver_1.push_back(Triangle[k][j + 1]);
+                        }
+                    } else {
+                        Edge e0(edges[index_edges[0]].origin, v0, id_edge++);
+                        Edge e1(v0, v1, id_edge++);
+                        Edge e2(v1, edges[index_edges[0]].origin, id_edge++);
+
+                        vector<Edge> e = {e0, e1, e2};
+                        vector<vertex> ver = {edges[index_edges[0]].end, v0, v1};
+
+                        faces_1.push_back(Face(ver, e, id_faces++, 0));
+                        edges_1.push_back(e0);
+                        edges_1.push_back(e1);
+                        edges_1.push_back(e2);
+
+                        ver_1.push_back(edges[index_edges[0]].end);
+                        ver_1.push_back(v0);
+                        ver_1.push_back(v1);
+                    }
+                }
+            }
+        }
+    }   
+    edges = edges_1;
+    faces = faces_1;
+        }
+        void printFaces() {
+    			for(auto face: faces){
+				printFace(face);
+				}
 				}
 
-		
+    };
 
-			};
+
 }
 

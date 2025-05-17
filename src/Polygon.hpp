@@ -37,6 +37,7 @@ class vertex {
 		bool operator!=(const vertex& other) const {
     		return !(*this == other);
 		}
+
 };
 class Edge {
 	public:
@@ -63,7 +64,9 @@ class Face {
     vector<Edge> edges;
     vector<	vertex> vertices;
     unsigned int id, type; 
+    
    	Face()=default; 
+   	
     Face(const vector<	vertex>& vec, const vector<Edge>& edg, unsigned int code, unsigned int type) {
 	vertices.reserve(vec.size()) ;
 	edges.reserve(edg.size());
