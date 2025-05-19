@@ -75,12 +75,14 @@ class Face {
 	  this->type=type;}
 	
 };
-	vertex sphericalToCartesian(double phi, double psi);
+
+
+vertex sphericalToCartesian(double phi, double psi);
 Face projectPentagonToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id) ;
 Face projectSquareToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id);
 Face projectTriangleToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id);
 void printFace(Face f) ;
 Edge reverseEdge(Edge e);
-
+//vertex getThirdVertexFromTriangleEdges(const Edge& e0, const Edge& e1);
  }
  

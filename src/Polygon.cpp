@@ -32,5 +32,15 @@ Edge reverseEdge(Edge e){
 	return Edge(e.end, e.origin, e.id);
 }
 
+vertex getThirdVertexFromTriangleEdges(const Edge& e0, const Edge& e1) {
 
+    if (e1.origin != e0.origin && e1.origin != e0.end) {
+        return e1.origin;
+    } else if (e1.end != e0.origin && e1.end != e0.end) {
+        return e1.end;
+    } else {
+        std::cerr << "Error: Cannot determine third vertex from given edges!" << std::endl;
+        return vertex(); 
+    }
+}
 }

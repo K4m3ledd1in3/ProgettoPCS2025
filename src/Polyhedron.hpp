@@ -572,7 +572,7 @@ void Triangulation() {
                     NumVer = 2 * T + 2; NumEdg = 6 * T; NumFcs = 4 * T;
                     break;
                 case 4:
-                    NumVer = 4 * T + 2; NumEdg = 2 * T; NumFcs = 8 * T;
+                    NumVer = 4 * T + 2; NumEdg = 12 * T; NumFcs = 8 * T;
                     break;
                 case 5:
                     NumVer = 10 * T; NumEdg = 30 * T; NumFcs = 20 * T;
@@ -588,12 +588,12 @@ void Triangulation() {
             unsigned int id_edge = 0;
             unsigned int id_faces = 0;
             vertex v;
+            vertex v1;
             map<unsigned int, vector<vertex>> Triangle;
             vector<size_t> index_edges(3);
 
    for (size_t i = 0; i < faces.size(); i++) {
                 int count = 0;
-
                 for (size_t j = 0; j < edges.size(); j++) {
                     for (auto& e : faces[i].edges) {
                         if ((edges[j].origin == e.origin && edges[j].end == e.end) ||
@@ -605,53 +605,95 @@ void Triangulation() {
                         }
                     }
                 }
-
- 
-               /* if (count != 3) {
-                    std::cerr << "Warning: Could not find 3 edges for face " << i << std::endl;
-                    continue;
-                }*/
-
                 size_t cv = 0;
-
-                for (size_t k = 0; k < b; k++) {
+                for (size_t k = 0; k < b ; k++) {
                     Triangle[k].resize(k + 2);
+					vertex v0;
+					vertex v_origin;
+					//(1)
+                    if (edges[index_edges[1]].end != edges[index_edges[0]].end) 
+						{
+						                       
+						v = edges[index_edges[0]].origin;	
+						v0=vertex(
+                        (edges[index_edges[0]].end.x - edges[index_edges[0]].origin.x) * ( k + 1) / float(b) + edges[index_edges[0]].origin.x,
+                        (edges[index_edges[0]].end.y - edges[index_edges[0]].origin.y) * (k + 1) / double(b) + edges[index_edges[0]].origin.y,
+                        (edges[index_edges[0]].end.z - edges[index_edges[0]].origin.z) * (k+1) / double(b) + edges[index_edges[0]].origin.z,
+                         cv++
+                        );
+						if(edges[index_edges[1]].end == edges[index_edges[0]].origin){
 
+						v1=vertex(
+                        (edges[index_edges[1]].end.x - edges[index_edges[1]].origin.x) * (b-k -1) / double(b) + edges[index_edges[1]].origin.x,
+                        (edges[index_edges[1]].end.y - edges[index_edges[1]].origin.y) * (b- k- 1) / double(b) + edges[index_edges[1]].origin.y,
+                        (edges[index_edges[1]].end.z - edges[index_edges[1]].origin.z) * (b-k-1) / double(b) + edges[index_edges[1]].origin.z,
+                         cv++
+                        );
+							
+							
+						}
+						else if(edges[index_edges[1]].origin == edges[index_edges[0]].origin){	
+							v1=vertex(
+                        (edges[index_edges[1]].end.x - edges[index_edges[1]].origin.x) * (k+ 1) / double(b) + edges[index_edges[1]].origin.x,
+                        (edges[index_edges[1]].end.y - edges[index_edges[1]].origin.y) * (k+ 1) / double(b) + edges[index_edges[1]].origin.y,
+                        (edges[index_edges[1]].end.z - edges[index_edges[1]].origin.z) * (k+ 1) / double(b) + edges[index_edges[1]].origin.z,
+                         cv++
+                        );
+						}
+                    	} else 
+						{
+						 v = edges[index_edges[0]].end;
+						v0=vertex(
+                        (edges[index_edges[0]].end.x - edges[index_edges[0]].origin.x) * ( b- k - 1) / double(b) + edges[index_edges[0]].origin.x,
+                        (edges[index_edges[0]].end.y - edges[index_edges[0]].origin.y) * ( b - k - 1) / double(b) + edges[index_edges[0]].origin.y,
+                        (edges[index_edges[0]].end.z - edges[index_edges[0]].origin.z) * ( b- k - 1) / double(b) + edges[index_edges[0]].origin.z,
+                         cv++
+                        );
+                     	v1=vertex(
+                        (edges[index_edges[1]].end.x - edges[index_edges[1]].origin.x) * ( b- k -1 ) / double(b) + edges[index_edges[1]].origin.x,
+                        (edges[index_edges[1]].end.y - edges[index_edges[1]].origin.y) * (b-k-1) / double(b) + edges[index_edges[1]].origin.y,
+                        (edges[index_edges[1]].end.z - edges[index_edges[1]].origin.z) * (b-k-1) / double(b) + edges[index_edges[1]].origin.z,
+                         cv++
+                        );   
+                      
+                    	}
+                    //v =  getThirdVertexFromTriangleEdges(edges[index_edges[0]], edges[index_edges[1]]);
+                    
 
-                    if (edges[index_edges[1]].end != edges[index_edges[0]].end) {
-                        v = edges[index_edges[1]].end;
-                    } else {
-                        v = edges[index_edges[1]].origin;
-                    }
-                    vertex v0(
-                        (edges[index_edges[0]].end.x - edges[index_edges[0]].origin.x) * (b- k - 1) / float(b) + edges[index_edges[0]].origin.x,
-                        (edges[index_edges[0]].end.y - edges[index_edges[0]].origin.y) * (b - k - 1) / float(b) + edges[index_edges[0]].origin.y,
-                        (edges[index_edges[0]].end.z - edges[index_edges[0]].origin.z) * (b - k - 1) / float(b) + edges[index_edges[0]].origin.z,
+				/*if(edges[index_edges[1]].end != edges[index_edges[0]].end){
+						
+                        v1=vertex(
+                        (v.x - edges[index_edges[0]].end.x) * (k + 1) / double(b) + edges[index_edges[0]].end.x,
+                        (v.y - edges[index_edges[0]].end.y) * (k + 1) / double(b) + edges[index_edges[0]].end.y,
+                        (v.z - edges[index_edges[0]].end.z) * (k + 1) / double(b) + edges[index_edges[0]].end.z,
                          cv++
                     );
-
-                    vertex v1(
-                        (v.x - edges[index_edges[0]].end.x) * (k + 1) / float(b) + edges[index_edges[0]].end.x,
-                        (v.y - edges[index_edges[0]].end.y) * (k + 1) / float(b) + edges[index_edges[0]].end.y,
-                        (v.z - edges[index_edges[0]].end.z) * (k + 1) / float(b) + edges[index_edges[0]].end.z,
-                        cv
-                    );
-
+					}else{
+					      v1= vertex(
+                        (edges[index_edges[0]].end.x-v.x) * (b-k-1) / double(b) + v.x,
+                        (edges[index_edges[0]].end.y-v.y) * (b-k-1) / double(b) + v.y,
+                        (edges[index_edges[0]].end.z-v.z) * (b-k-1) / double(b) + v.z,
+                        cv++
+                    );	
+					}*/
+					//v.normalize();
+					//v0.normalize();
+					//v1.normalize();
                     Triangle[k][0] = v0;
                     Triangle[k][1] = v1;
 
                     for (size_t j = 0; j < k; j++) {
                         vertex v2(
-                            (v1.x - v0.x) * (j + 1) / float(k + 1) + v0.x,
-                            (v1.y - v0.y) * (j + 1 ) / float(k + 1) + v0.y,
-                            (v1.z - v0.z) * (j + 1) / float(k + 1) + v0.z,
+                            (v1.x - v0.x) * (j+1) / double(k+1) + v0.x,
+                            (v1.y - v0.y) * (j+1) / double(k+1) + v0.y,
+                            (v1.z - v0.z) * (j+1) / double(k+1) + v0.z,
                             cv++
                         );
-                        Triangle[k][j + 2] = v2;
+                        //v2.normalize();
+                        Triangle[k][j+2] = v2;
                     }
-
                     if (k > 0) {
-                        for (size_t j = 0; j < k + 1; j++) {
+                        for (size_t j = 0; j < k + 1 ; j++) {
                             
                             if (j + 1 >= Triangle[k].size() || j >= Triangle[k - 1].size()) continue;
 
@@ -662,7 +704,6 @@ void Triangulation() {
                             vector<Edge> e = {e0, e1, e2};
                             vector<vertex> ver = {Triangle[k - 1][j], Triangle[k][j], Triangle[k][j + 1]};
                             faces_1.push_back(Face(ver, e, id_faces++, 0));
-
                             edges_1.push_back(e0);
                             edges_1.push_back(e1);
                             edges_1.push_back(e2);
@@ -672,19 +713,20 @@ void Triangulation() {
                             ver_1.push_back(Triangle[k][j + 1]);
                         }
                     } else {
-                        Edge e0(edges[index_edges[0]].origin, v0, id_edge++);
-                        Edge e1(v0, v1, id_edge++);
-                        Edge e2(v1, edges[index_edges[0]].origin, id_edge++);
+                    	vertex c;
 
+                        Edge e0(v, v0, id_edge++);
+                        Edge e1(v0, v1, id_edge++);
+                        Edge e2(v1, v, id_edge++);
                         vector<Edge> e = {e0, e1, e2};
-                        vector<vertex> ver = {edges[index_edges[0]].end, v0, v1};
+                        vector<vertex> ver = {v, v0, v1};
 
                         faces_1.push_back(Face(ver, e, id_faces++, 0));
                         edges_1.push_back(e0);
                         edges_1.push_back(e1);
                         edges_1.push_back(e2);
 
-                        ver_1.push_back(edges[index_edges[0]].end);
+                        ver_1.push_back(v);
                         ver_1.push_back(v0);
                         ver_1.push_back(v1);
                     }
@@ -694,8 +736,7 @@ void Triangulation() {
     }   
     edges = edges_1;
     faces = faces_1;
-        }
-        void printFaces() {
+        }       void printFaces() {
     			for(auto face: faces){
 				printFace(face);
 				}
