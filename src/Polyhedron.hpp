@@ -300,7 +300,7 @@ faces[7] = Face(
 		
 };
 
-	class Dodecahedron{
+	/*class Dodecahedron{
 		public:
 		vector<Face> faces;
 		vector <Edge> edge;
@@ -415,7 +415,94 @@ faces[11] = Face(
 				printFace(face);
 			}	
 			}		
-	};	
+	};	*/
+    class Dodecahedron {
+public:
+    vector<Face> faces;
+    vector<Edge> edge;
+    vector<vertex> vertices;
+    const unsigned int nvertices = 20;
+    const unsigned int nfaces = 12;
+
+    Dodecahedron() {
+        const double phi = (1.0 + sqrt(5.0)) / 2.0;  // golden ratio
+        const double a = 1.0;
+        const double b = 1.0 / phi;
+        const double c = 2.0 - phi;
+
+        vertices = {
+            vertex(-a, -a, -a), vertex(-a, -a,  a), vertex(-a,  a, -a), vertex(-a,  a,  a),
+            vertex( a, -a, -a), vertex( a, -a,  a), vertex( a,  a, -a), vertex( a,  a,  a),
+            vertex( 0, -b, -phi), vertex( 0, -b,  phi), vertex( 0,  b, -phi), vertex( 0,  b,  phi),
+            vertex(-b, -phi, 0), vertex(-b,  phi, 0), vertex( b, -phi, 0), vertex( b,  phi, 0),
+            vertex(-phi, 0, -b), vertex( phi, 0, -b), vertex(-phi, 0,  b), vertex( phi, 0,  b)
+        };
+
+        // Normalize all vertices to lie on the unit sphere
+        for (auto& v : vertices) {
+            v.normalize();
+        }
+
+        // Define the 12 faces via vertex indices
+        vector<vector<int>> face_indices = {
+            {0, 8, 4, 17, 6},
+            {0, 6, 2, 16, 12},
+            {0, 12, 1, 18, 8},
+            {1, 9, 5, 14, 18},
+            {1, 12, 13, 3, 9},
+            {2, 10, 3, 13, 16},
+            {3, 10, 11, 7, 9},
+            {4, 8, 18, 14, 19},
+            {5, 9, 7, 15, 19},
+            {6, 17, 4, 19, 15},
+            {2, 6, 15, 7, 10},
+            {5, 14, 4, 19, 15}
+        };
+
+        faces.reserve(nfaces);
+
+        for (size_t i = 0; i < face_indices.size(); ++i) {
+            vector<vertex> faceVerts;
+            vector<Edge> faceEdges;
+
+            for (int j = 0; j < 5; ++j) {
+                int curr = face_indices[i][j];
+                int next = face_indices[i][(j + 1) % 5];
+
+                faceVerts.push_back(vertices[curr]);
+
+                // Check if the edge already exists
+                auto it = find_if(edge.begin(), edge.end(), [&](const Edge& e) {
+                    return (e.origin == vertices[curr] && e.end == vertices[next]) ||
+                           (e.origin == vertices[next] && e.end == vertices[curr]);
+                });
+
+                if (it != edge.end()) {
+                    faceEdges.push_back((it->origin == vertices[curr]) ? *it : reverseEdge(*it));
+                } else {
+                    Edge e(vertices[curr], vertices[next], edge.size());
+                    edge.push_back(e);
+                    faceEdges.push_back(e);
+                }
+            }
+
+            faces.emplace_back(faceVerts, faceEdges, i, 0);
+        }
+    }
+
+    void display() const {
+        for (const auto& v : vertices) {
+            cout << "(" << v.x << ", " << v.y << ", " << v.z << ")" << endl;
+        }
+    }
+
+    void printFaces() const {
+        for (const auto& f : faces) {
+            printFace(f);
+        }
+    }
+};
+
 	
 
 	class Icosahedron{
