@@ -471,37 +471,43 @@ faces[11] = Face(
         vector<Edge> b3  = { edge[2], edge[25], reverseEdge(edge[3]) };
         vector<vertex> v3 = { vertices[0], vertices[7], vertices[10] };
         faces[3] = Face(v3, b3 , 3, 0);
-        vector<Edge> b4  = { edge[3], edge[12], reverseEdge(edge[4]) };
-        vector<vertex> v4 = { vertices[0], vertices[10], vertices[11] };
+        //vector<Edge> b4  = { edge[3], reverseEdge(edge[12]), reverseEdge(edge[4]) };
+        vector<Edge> b4  = { edge[3], reverseEdge(edge[12]), edge[4] };
+		vector<vertex> v4 = { vertices[0], vertices[10], vertices[11] };
         faces[4] = Face(v4, b4 , 4, 0);
+        //vector<Edge> b5  = { edge[5], (edge[20]), reverseEdge(edge[1]) };
         vector<Edge> b5  = { edge[5], reverseEdge(edge[20]), reverseEdge(edge[1]) };
-        vector<vertex> v5 = { vertices[1], vertices[5], vertices[9] };
+		vector<vertex> v5 = { vertices[1], vertices[5], vertices[9] };
         faces[5] = Face(v5, b5 , 5, 0);
-        vector<Edge> b6  = { edge[29], reverseEdge(edge[28]), edge[10] };
-        vector<vertex> v6 = { vertices[5], vertices[11], vertices[4] };
+        //vector<Edge> b6  = { edge[29], reverseEdge(edge[28]), edge[10] };
+        vector<Edge> b6  = { edge[29], reverseEdge(edge[28]), reverseEdge(edge[10]) };
+		vector<vertex> v6 = { vertices[5], vertices[11], vertices[4] };
         faces[6] = Face(v6, b6 , 6, 0);
-        vector<Edge> b7  = { edge[27], reverseEdge(edge[12]), edge[13] };
-        vector<vertex> v7 = { vertices[11], vertices[10], vertices[2] };
+        //vector<Edge> b7  = { edge[27], reverseEdge(edge[12]), edge[13] };
+        vector<Edge> b7  = { edge[27], reverseEdge(edge[13]), reverseEdge(edge[12]) };
+		vector<vertex> v7 = { vertices[11], vertices[10], vertices[2] };
         faces[7] = Face(v7, b7 , 7, 0);
-        vector<Edge> b8  = { edge[25], reverseEdge(edge[6]), edge[11] };
+        //vector<Edge> b8  = { edge[25], reverseEdge(edge[6]), edge[11] };
+        vector<Edge> b8  = { edge[25], reverseEdge(edge[6]), reverseEdge(edge[11]) };
         vector<vertex> v8 = { vertices[10], vertices[7], vertices[6] };
         faces[8] = Face(v8, b8 , 8, 0);
-        vector<Edge> b9  = { edge[6], reverseEdge(edge[7]), edge[8] };
+        //vector<Edge> b9  = { edge[6], reverseEdge(edge[7]), edge[8] };
+        vector<Edge> b9  = { edge[6], edge[7], reverseEdge(edge[8]) };
         vector<vertex> v9 = { vertices[7], vertices[1], vertices[8] };
         faces[9] = Face(v9, b9 , 9, 0);
-        vector<Edge> b10 = { reverseEdge(edge[17]), reverseEdge(edge[19]), edge[14] };
+        vector<Edge> b10 = { reverseEdge(edge[17]), edge[14],(edge[19])};
         vector<vertex> v10= { vertices[3], vertices[9], vertices[4] };
         faces[10]= Face(v10, b10,10, 0);
-        vector<Edge> b11 = { edge[14], reverseEdge(edge[10]), reverseEdge(edge[9 ]) };
+        vector<Edge> b11 = { edge[14], reverseEdge(edge[10]), (edge[9]) };
         vector<vertex> v11= { vertices[3], vertices[4], vertices[2] };
         faces[11]= Face(v11, b11,11, 0);
-        vector<Edge> b12 = { edge[9], edge[11], reverseEdge(edge[15]) };
+        vector<Edge> b12 = { edge[9], (edge[15]), edge[11] };
         vector<vertex> v12= { vertices[3], vertices[2], vertices[6] };
         faces[12]= Face(v12, b12,12, 0);
         vector<Edge> b13 = { edge[15], edge[22], reverseEdge(edge[16]) };
         vector<vertex> v13= { vertices[3], vertices[6], vertices[8] };
         faces[13]= Face(v13, b13,13, 0);
-        vector<Edge> b14 = { edge[16], reverseEdge(edge[26]), reverseEdge(edge[17]) };
+        vector<Edge> b14 = { edge[16], (edge[26]), reverseEdge(edge[17]) };
         vector<vertex> v14= { vertices[3], vertices[8], vertices[9] };
         faces[14]= Face(v14, b14,14, 0);
         vector<Edge> b15 = { edge[19], reverseEdge(edge[20]), reverseEdge(edge[18]) };
@@ -533,7 +539,8 @@ faces[11] = Face(
 			}
 		
 	};
-	class mesh_Polyhedron{
+	class mesh_Polyhedron
+	{
 		public:
 		vector<Face> faces;
 		vector <Edge> edges;
@@ -556,15 +563,7 @@ faces[11] = Face(
 			c = c0;
 			p = p0;
 			q = q0;
-		}
-vertex interpolate_vertex(const vertex& a, const vertex& b, double t, int id) {
-    return vertex(
-        a.x + t * (b.x - a.x),
-        a.y + t * (b.y - a.y),
-        a.z + t * (b.z - a.z),
-        id
-    );
-}		
+		}	
 void Triangulation() {
     vector<Edge> edges_1;
     vector<Face> faces_1;
@@ -600,111 +599,104 @@ void Triangulation() {
             vector<size_t> index_edges(3);
                 size_t cv = 0;
    for (size_t i = 0; i < faces.size(); i++) {
-                int count = 0;
-                for (size_t j = 0; j < edges.size(); j++) {
-                    for (auto& e : faces[i].edges) {
-                        if ((edges[j].origin == e.origin && edges[j].end == e.end) ||
-                            (edges[j].end == e.origin && edges[j].origin == e.end)) {
-                            if (count < 3) {
-                                index_edges[count] = j;
-                                count++;
-                            }
-                        }
-                    }
-                }
-
                for (size_t k = 0; k < b ; k++) {
                     Triangle[k].resize(k + 2);
 					vertex v0;
-					vertex v_origin;
-					//(1)
-					
-                    if (edges[index_edges[1]].end != edges[index_edges[0]].end) 
-						{
-						if(edges[index_edges[1]].end == edges[index_edges[0]].origin){
-						v = edges[index_edges[0]].origin;
-						v0=vertex(
-                        (edges[index_edges[0]].end.x - edges[index_edges[0]].origin.x) * ( k + 1) / float(b) + edges[index_edges[0]].origin.x,
-                        (edges[index_edges[0]].end.y - edges[index_edges[0]].origin.y) * (k + 1) / double(b) + edges[index_edges[0]].origin.y,
-                        (edges[index_edges[0]].end.z - edges[index_edges[0]].origin.z) * (k+1) / double(b) + edges[index_edges[0]].origin.z,
-                         cv++
-                        );
-						v1=vertex(
-                        (edges[index_edges[1]].end.x - edges[index_edges[1]].origin.x) * (b-k -1) / double(b) + edges[index_edges[1]].origin.x,
-                        (edges[index_edges[1]].end.y - edges[index_edges[1]].origin.y) * (b- k- 1) / double(b) + edges[index_edges[1]].origin.y,
-                        (edges[index_edges[1]].end.z - edges[index_edges[1]].origin.z) * (b-k-1) / double(b) + edges[index_edges[1]].origin.z,
-                         cv++
-                        );		
-						}
-						else if(edges[index_edges[1]].origin == edges[index_edges[0]].origin){	
-						v = edges[index_edges[0]].origin;
-						v0=vertex(
-                        (edges[index_edges[0]].end.x - edges[index_edges[0]].origin.x) * ( k + 1) / float(b) + edges[index_edges[0]].origin.x,
-                        (edges[index_edges[0]].end.y - edges[index_edges[0]].origin.y) * (k + 1) / double(b) + edges[index_edges[0]].origin.y,
-                        (edges[index_edges[0]].end.z - edges[index_edges[0]].origin.z) * (k+1) / double(b) + edges[index_edges[0]].origin.z,
-                         cv++
-                        );
-							v1=vertex(
-                        (edges[index_edges[1]].end.x - edges[index_edges[1]].origin.x) * (k+ 1) / double(b) + edges[index_edges[1]].origin.x,
-                        (edges[index_edges[1]].end.y - edges[index_edges[1]].origin.y) * (k+ 1) / double(b) + edges[index_edges[1]].origin.y,
-                        (edges[index_edges[1]].end.z - edges[index_edges[1]].origin.z) * (k+ 1) / double(b) + edges[index_edges[1]].origin.z,
-                         cv++
-                        );
-						}else if(edges[index_edges[0]].end == edges[index_edges[1]].origin){
-						v = edges[index_edges[0]].end;
-						v0=vertex(
-                        (edges[index_edges[0]].end.x - edges[index_edges[0]].origin.x) * (b-k-1) / float(b) + edges[index_edges[0]].origin.x,
-                        (edges[index_edges[0]].end.y - edges[index_edges[0]].origin.y) * (b-k-1) / double(b) + edges[index_edges[0]].origin.y,
-                        (edges[index_edges[0]].end.z - edges[index_edges[0]].origin.z) * (b-k-1) / double(b) + edges[index_edges[0]].origin.z,
-                         cv++
-                        );
-							v1=vertex(
-                        (edges[index_edges[1]].end.x - edges[index_edges[1]].origin.x) * (k+ 1) / double(b) + edges[index_edges[1]].origin.x,
-                        (edges[index_edges[1]].end.y - edges[index_edges[1]].origin.y) * (k+ 1) / double(b) + edges[index_edges[1]].origin.y,
-                        (edges[index_edges[1]].end.z - edges[index_edges[1]].origin.z) * (k+ 1) / double(b) + edges[index_edges[1]].origin.z,
-                         cv++
-                        );
-					
-						}
-                    	} else if(edges[index_edges[0]].end == edges[index_edges[1]].end)
-						{
-						 v = edges[index_edges[0]].end;
-						v0=vertex(
-                        (edges[index_edges[0]].end.x - edges[index_edges[0]].origin.x) * ( b- k - 1) / double(b) + edges[index_edges[0]].origin.x,
-                        (edges[index_edges[0]].end.y - edges[index_edges[0]].origin.y) * ( b - k - 1) / double(b) + edges[index_edges[0]].origin.y,
-                        (edges[index_edges[0]].end.z - edges[index_edges[0]].origin.z) * ( b- k - 1) / double(b) + edges[index_edges[0]].origin.z,
-                         cv++
-                        );
-                     	v1=vertex(
-                        (edges[index_edges[1]].end.x - edges[index_edges[1]].origin.x) * ( b-k-1 ) / double(b) + edges[index_edges[1]].origin.x,
-                        (edges[index_edges[1]].end.y - edges[index_edges[1]].origin.y) * (b-k-1) / double(b) + edges[index_edges[1]].origin.y,
-                        (edges[index_edges[1]].end.z - edges[index_edges[1]].origin.z) * (b-k-1) / double(b) + edges[index_edges[1]].origin.z,
-                         cv++
-                        );   
-                      
-                    	}
+					vertex v_origin;	
+			  		
+			if (faces[i].edges[1].end != faces[i].edges[0].end) 
+			{
+    		if (faces[i].edges[1].end == faces[i].edges[0].origin) {
+        	v = faces[i].edges[0].origin;
 
-					
+        	v0 = vertex(
+            (faces[i].edges[0].end.x - faces[i].edges[0].origin.x) * (k + 1) / float(b) + faces[i].edges[0].origin.x,
+            (faces[i].edges[0].end.y - faces[i].edges[0].origin.y) * (k + 1) / double(b) + faces[i].edges[0].origin.y,
+            (faces[i].edges[0].end.z - faces[i].edges[0].origin.z) * (k + 1) / double(b) + faces[i].edges[0].origin.z,
+            cv++
+        	)	;
+
+        	v1 = vertex(
+            (faces[i].edges[1].end.x - faces[i].edges[1].origin.x) * (b - k - 1) / double(b) + faces[i].edges[1].origin.x,
+            (faces[i].edges[1].end.y - faces[i].edges[1].origin.y) * (b - k - 1) / double(b) + faces[i].edges[1].origin.y,
+            (faces[i].edges[1].end.z - faces[i].edges[1].origin.z) * (b - k - 1) / double(b) + faces[i].edges[1].origin.z,
+            cv++
+        	);
+
+    		} else if (faces[i].edges[1].origin == faces[i].edges[0].origin) {
+        	v = faces[i].edges[0].origin;
+
+        	v0 = vertex(
+            (faces[i].edges[0].end.x - faces[i].edges[0].origin.x) * (k + 1) / float(b) + faces[i].edges[0].origin.x,
+            (faces[i].edges[0].end.y - faces[i].edges[0].origin.y) * (k + 1) / double(b) + faces[i].edges[0].origin.y,
+            (faces[i].edges[0].end.z - faces[i].edges[0].origin.z) * (k + 1) / double(b) + faces[i].edges[0].origin.z,
+            cv++
+        	);
+
+        	v1 = vertex(
+            (faces[i].edges[1].end.x - faces[i].edges[1].origin.x) * (k + 1) / double(b) + faces[i].edges[1].origin.x,
+            (faces[i].edges[1].end.y - faces[i].edges[1].origin.y) * (k + 1) / double(b) + faces[i].edges[1].origin.y,
+            (faces[i].edges[1].end.z - faces[i].edges[1].origin.z) * (k + 1) / double(b) + faces[i].edges[1].origin.z,
+            cv++
+        	);
+
+    		} else if (faces[i].edges[0].end == faces[i].edges[1].origin) {
+        	v = faces[i].edges[0].end;
+
+        	v0 = vertex(
+            (faces[i].edges[0].end.x - faces[i].edges[0].origin.x) * (b - k - 1) / float(b) + faces[i].edges[0].origin.x,
+            (faces[i].edges[0].end.y - faces[i].edges[0].origin.y) * (b - k - 1) / double(b) + faces[i].edges[0].origin.y,
+            (faces[i].edges[0].end.z - faces[i].edges[0].origin.z) * (b - k - 1) / double(b) + faces[i].edges[0].origin.z,
+            cv++
+        	);
+
+        	v1 = vertex(
+            (faces[i].edges[1].end.x - faces[i].edges[1].origin.x) * (k + 1) / double(b) + faces[i].edges[1].origin.x,
+            (faces[i].edges[1].end.y - faces[i].edges[1].origin.y) * (k + 1) / double(b) + faces[i].edges[1].origin.y,
+            (faces[i].edges[1].end.z - faces[i].edges[1].origin.z) * (k + 1) / double(b) + faces[i].edges[1].origin.z,
+            cv++
+        	);
+    		}
+			}
+			else if (faces[i].edges[0].end == faces[i].edges[1].end)
+			{
+    		v = faces[i].edges[0].end;
+
+    		v0 = vertex(
+        	(	faces[i].edges[0].end.x - faces[i].edges[0].origin.x) * (b - k - 1) / double(b) + faces[i].edges[0].origin.x,
+        	(faces[i].edges[0].end.y - faces[i].edges[0].origin.y) * (b - k - 1) / double(b) + faces[i].edges[0].origin.y,
+        	(faces[i].edges[0].end.z - faces[i].edges[0].origin.z) * (b - k - 1) / double(b) + faces[i].edges[0].origin.z,
+        	cv++
+    		);
+
+    		v1 = vertex(
+        	(faces[i].edges[1].end.x - faces[i].edges[1].origin.x) * (b - k - 1) / double(b) + faces[i].edges[1].origin.x,
+        	(faces[i].edges[1].end.y - faces[i].edges[1].origin.y) * (b - k - 1) / double(b) + faces[i].edges[1].origin.y,
+        	(faces[i].edges[1].end.z - faces[i].edges[1].origin.z) * (b - k - 1) / double(b) + faces[i].edges[1].origin.z,
+        		cv++
+    		);	
+			}
+					/*if (v0.length() > 1e-8) v0.normalize();
+        			if (v1.length() > 1e-8) v1.normalize();
+        			if (v.length() > 1e-8) v.normalize();*/
                     Triangle[k][0] = v0;
                     Triangle[k][k+1] = v1;
-
-                    for (size_t j = 0; j < k; j++) {
-					
+                    for (size_t j = 0; j < k; j++) {				
                     double t = double(j+1) / (k + 1);
 					vertex v2(
     				v0.x + t * (v1.x - v0.x),
- 				   v0.y + t * (v1.y - v0.y),
+ 				   	v0.y + t * (v1.y - v0.y),
     				v0.z + t * (v1.z - v0.z),
     				cv++
 					);
-                        Triangle[k][j+1] = v2;
-                    
+					//if (v2.length() > 1e-8) v2.normalize();
+                        Triangle[k][j+1] = v2; 
                     }
                     if (k > 0) {
                         for (size_t j = 0; j < k + 1 ; j++) {
                             
-                            if (j + 1 >= Triangle[k].size() || j >= Triangle[k - 1].size()) continue;
-
+                         if (j + 1 >= Triangle[k].size() || j >= Triangle[k - 1].size()) continue;
+							
                             Edge e0(Triangle[k - 1][j], Triangle[k][j], id_edge++);
                             Edge e1(Triangle[k][j], Triangle[k][j + 1], id_edge++);
                             Edge e2(Triangle[k][j + 1], Triangle[k - 1][j], id_edge++);

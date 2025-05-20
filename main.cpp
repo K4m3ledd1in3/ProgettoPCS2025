@@ -27,7 +27,7 @@ int main()
 	Icosahedron i;
 	cout << "ICC" << endl;
 	i.printFaces();
-	mesh_Polyhedron pp(o.faces, o.edge, o.vertices, 3,0, 3,3);
+	mesh_Polyhedron pp(i.faces, i.edge, i.vertices, 2,0, 3,5);
 	pp.Triangulation();	
 	pp.printFaces();
 	return 0;

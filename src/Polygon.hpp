@@ -57,6 +57,13 @@ class Edge {
     	        return sqrt((origin.x - end.x) * (origin.x - end.x) +
                     (origin.y - end.y) * (origin.y - end.y));
 	}
+			bool operator==(const Edge& other) const {
+   			 return (origin==other.origin && end==other.end);
+		}
+		
+		bool operator!=(const Edge& other) const {
+    		return !(*this == other);
+		}
 };
 
 class Face {
