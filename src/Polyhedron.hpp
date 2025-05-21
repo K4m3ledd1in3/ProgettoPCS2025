@@ -300,6 +300,11 @@ faces[7] = Face(
 		
 };
 
+
+
+
+
+		
 	class Dodecahedron{
 		public:
 		vector<Face> faces;
@@ -309,7 +314,7 @@ faces[7] = Face(
 		const unsigned int nedges = 30;
 		const unsigned int nfaces = 12;
 		const unsigned int nvertices = 20;
-		Dodecahedron() {
+/*		Dodecahedron() {
     		const double c = (1.0 + sqrt(5.0)) / 2.0;
     		const double a = 1.0;
     		const double b = 1.0 / c;
@@ -403,6 +408,101 @@ faces[11] = Face(
     { reverseEdge(edge[23]), edge[26], reverseEdge(edge[9]), reverseEdge(edge[8]), reverseEdge(edge[11]) }, 11, 0
 );
 
+}*/
+
+Dodecahedron() {
+    const double C0 = (1.0 + sqrt(5.0)) / 4.0;
+    const double C1 = (3.0 + sqrt(5.0)) / 4.0;
+
+    vertices.reserve(20);
+    edge.reserve(30);
+    faces.resize(12);
+
+    vertices = {
+        vertex( 0.0,  0.5,   C1), // V0
+        vertex( 0.0,  0.5,  -C1), // V1
+        vertex( 0.0, -0.5,   C1), // V2
+        vertex( 0.0, -0.5,  -C1), // V3
+        vertex(  C1,  0.0,  0.5), // V4
+        vertex(  C1,  0.0, -0.5), // V5
+        vertex( -C1,  0.0,  0.5), // V6
+        vertex( -C1,  0.0, -0.5), // V7
+        vertex( 0.5,   C1,  0.0), // V8
+        vertex( 0.5,  -C1,  0.0), // V9
+        vertex(-0.5,   C1,  0.0), // V10
+        vertex(-0.5,  -C1,  0.0), // V11
+        vertex(  C0,   C0,   C0), // V12
+        vertex(  C0,   C0,  -C0), // V13
+        vertex(  C0,  -C0,   C0), // V14
+        vertex(  C0,  -C0,  -C0), // V15
+        vertex( -C0,   C0,   C0), // V16
+        vertex( -C0,   C0,  -C0), // V17
+        vertex( -C0,  -C0,   C0), // V18
+        vertex( -C0,  -C0,  -C0)  // V19
+    };
+    for (auto& v : vertices) {
+        v.normalize();
+    }
+    using E = Edge;
+    auto e = [&](int from, int to, int id) {
+        return E(vertices[from], vertices[to], id);
+    };
+    edge = {
+        e(0, 2, 0),   e(2, 14, 1),  e(14, 4, 2),   e(4, 12, 3),   e(12, 0, 4),
+        e(0, 12, 5),  e(12, 8, 6),  e(8, 10, 7),   e(10, 16, 8),  e(16, 0, 9),
+        e(0, 16, 10), e(16, 6, 11), e(6, 18, 12),  e(18, 2, 13),  e(2, 0, 14),
+        e(7, 6, 15),  e(6, 16, 16), e(16, 10, 17), e(10, 17, 18), e(17, 7, 19),
+        e(7, 17, 20), e(17, 1, 21), e(1, 3, 22),   e(3, 19, 23),  e(19, 7, 24),
+        e(7, 19, 25), e(19, 11, 26),e(11, 18, 27), e(18, 6, 28),  e(6, 7, 29)
+    };
+    
+    auto re = [](Edge& ed) -> Edge {
+        return reverseEdge(ed);
+    };
+    faces[0] = Face({vertices[0], vertices[2], vertices[14], vertices[4], vertices[12]},
+                    {edge[0], edge[1], edge[2], edge[3], edge[4]}, 0, 0);
+    faces[1] = Face({vertices[0], vertices[12], vertices[8], vertices[10], vertices[16]},
+                    {edge[5], edge[6], edge[7], edge[8], edge[9]}, 1, 0);
+    faces[2] = Face({vertices[0], vertices[16], vertices[6], vertices[18], vertices[2]},
+                    {edge[10], edge[11], edge[12], edge[13], edge[14]}, 2, 0);       
+    faces[3] = Face({vertices[7], vertices[6], vertices[16], vertices[10], vertices[17]},
+                    {edge[15], re(edge[11]), re(edge[8]), edge[18], edge[19]}, 3, 0);
+    faces[4] = Face({vertices[7], vertices[17], vertices[1], vertices[3], vertices[19]},
+                    {edge[20], edge[21], edge[22], edge[23], edge[24]}, 4, 0);
+
+    faces[5] = Face({vertices[7], vertices[19], vertices[11], vertices[18], vertices[6]},
+                    {edge[25], edge[26], edge[27], re(edge[12]), re(edge[15])}, 5, 0);
+
+
+    Edge e30 = e(9,11,30);
+    Edge e31 = e(11,19,31);
+    Edge e32 = e(19,3,32);
+    Edge e33 = e(3,15,33);
+    Edge e34 = e(15,9,34);
+    faces[6] = Face({vertices[9], vertices[11], vertices[19], vertices[3], vertices[15]},
+                    {e30, e31, e32, e33, e34}, 6, 0);
+
+    Edge e35 = e(9,15,35);
+    Edge e36 = e(15,5,36);
+    Edge e37 = e(5,4,37);
+    Edge e38 = e(4,14,38);
+    Edge e39 = e(14,9,39);
+    faces[7] = Face({vertices[9], vertices[15], vertices[5], vertices[4], vertices[14]},
+                    {e35, e36, e37, e38, e39}, 7, 0);
+
+    faces[8] = Face({vertices[9], vertices[14], vertices[2], vertices[18], vertices[11]},
+                    {re(e39), re(edge[1]), re(edge[13]), re(edge[27]), re(e30)}, 8, 0);
+
+    Edge e41 = e(13,1,41);
+    faces[9] = Face({vertices[13], vertices[1], vertices[17], vertices[10], vertices[8]},
+                    {e41, re(edge[21]), re(edge[18]), re(edge[7]), re(edge[6])}, 9, 0);
+
+    Edge e42 = e(13,8,42);
+    faces[10] = Face({vertices[13], vertices[8], vertices[12], vertices[4], vertices[5]},
+                     {e42, edge[6], re(edge[3]), re(edge[2]), re(e37)}, 10, 0);
+
+    faces[11] = Face({vertices[13], vertices[5], vertices[15], vertices[3], vertices[1]},
+                     {re(e41), re(e36), re(e33), re(edge[22]), re(edge[21])}, 11, 0);
 }
 
 		void display() const{
@@ -472,8 +572,11 @@ faces[11] = Face(
         vector<vertex> v3 = { vertices[0], vertices[7], vertices[10] };
         faces[3] = Face(v3, b3 , 3, 0);
         //vector<Edge> b4  = { edge[3], reverseEdge(edge[12]), reverseEdge(edge[4]) };
-        vector<Edge> b4  = { edge[3], reverseEdge(edge[12]), edge[4] };
+        /*vector<Edge> b4  = { edge[3], reverseEdge(edge[12]), edge[4] };
+		vector<vertex> v4 = { vertices[0], vertices[10], vertices[11] };*/
+		vector<Edge> b4  = { edge[3], edge[27], reverseEdge(edge[4]) };
 		vector<vertex> v4 = { vertices[0], vertices[10], vertices[11] };
+		
         faces[4] = Face(v4, b4 , 4, 0);
         //vector<Edge> b5  = { edge[5], (edge[20]), reverseEdge(edge[1]) };
         vector<Edge> b5  = { edge[5], reverseEdge(edge[20]), reverseEdge(edge[1]) };
@@ -488,8 +591,10 @@ faces[11] = Face(
 		vector<vertex> v7 = { vertices[11], vertices[10], vertices[2] };
         faces[7] = Face(v7, b7 , 7, 0);
         //vector<Edge> b8  = { edge[25], reverseEdge(edge[6]), edge[11] };
-        vector<Edge> b8  = { edge[25], reverseEdge(edge[6]), reverseEdge(edge[11]) };
-        vector<vertex> v8 = { vertices[10], vertices[7], vertices[6] };
+        /*vector<Edge> b8  = { edge[25], reverseEdge(edge[6]), reverseEdge(edge[11]) };
+        vector<vertex> v8 = { vertices[10], vertices[7], vertices[6] };*/
+        vector<Edge> b8  = { reverseEdge(edge[25]), reverseEdge(edge[21]), edge[23] };
+		vector<vertex> v8 = { vertices[10], vertices[7], vertices[6] };
         faces[8] = Face(v8, b8 , 8, 0);
         //vector<Edge> b9  = { edge[6], reverseEdge(edge[7]), edge[8] };
         vector<Edge> b9  = { edge[6], edge[7], reverseEdge(edge[8]) };
@@ -526,7 +631,6 @@ faces[11] = Face(
         vector<vertex> v19= { vertices[9], vertices[8], vertices[1] };
         faces[19]= Face(v19, b19,19, 0);
 	}
-	
 			void display() const{
 			for(size_t i=0; i<vertices.size(); i++){
 				cout << "(" << this->vertices[i].x << "," << this->vertices[i].y << "," << this->vertices[i].z << ")" << endl;}
@@ -568,7 +672,6 @@ void Triangulation() {
     vector<Edge> edges_1;
     vector<Face> faces_1;
     vector<vertex> ver_1;
-
     if ((b == 0 && c != 0) || (b != 0 && c == 0)) {
         if (p == 3) {
             unsigned int T = b * b + c * b + c * c;
@@ -598,7 +701,12 @@ void Triangulation() {
             map<unsigned int, vector<vertex>> Triangle;
             vector<size_t> index_edges(3);
                 size_t cv = 0;
-   for (size_t i = 0; i < faces.size(); i++) {
+        	if(b==0){
+        		b=c;
+			}else{
+				c=b;
+			}
+    for (size_t i = 0; i < faces.size(); i++) {
                for (size_t k = 0; k < b ; k++) {
                     Triangle[k].resize(k + 2);
 					vertex v0;
@@ -676,9 +784,7 @@ void Triangulation() {
         		cv++
     		);	
 			}
-					/*if (v0.length() > 1e-8) v0.normalize();
-        			if (v1.length() > 1e-8) v1.normalize();
-        			if (v.length() > 1e-8) v.normalize();*/
+
                     Triangle[k][0] = v0;
                     Triangle[k][k+1] = v1;
                     for (size_t j = 0; j < k; j++) {				
@@ -689,7 +795,6 @@ void Triangulation() {
     				v0.z + t * (v1.z - v0.z),
     				cv++
 					);
-					//if (v2.length() > 1e-8) v2.normalize();
                         Triangle[k][j+1] = v2; 
                     }
                     if (k > 0) {
@@ -703,7 +808,15 @@ void Triangulation() {
 
                             vector<Edge> e = {e0, e1, e2};
                             vector<vertex> ver = {Triangle[k - 1][j], Triangle[k][j], Triangle[k][j + 1]};
+                            if(j>0){		
+							vector<vertex> hidden = {Triangle[k - 1][j], Triangle[k-1][j-1], Triangle[k][j]};
+						    Edge _e1(Triangle[k][j], Triangle[k - 1][j-1], -1);
+							Edge _e2(Triangle[k-1][j-1], Triangle[k-1][j], -1);
+                            vector<Edge> _e = {_e1, _e2, e0};
+                            faces_1.push_back(Face(hidden, _e, id_faces++, 0));
+						    }
                             faces_1.push_back(Face(ver, e, id_faces++, 0));
+
                             edges_1.push_back(e0);
                             edges_1.push_back(e1);
                             edges_1.push_back(e2);
@@ -734,11 +847,74 @@ void Triangulation() {
     }   
     edges = edges_1;
     faces = faces_1;
-        }       void printFaces() {
+        }  
+
+void GenerateDual() {
+    map<unsigned int, vector<unsigned int>> M;  
+    map<unsigned int, vertex> centroid;    
+    size_t n = faces[0].vertices.size();    //platonic solid  
+    for (const auto& face : faces) {
+        double cx = 0, cy = 0, cz = 0;
+        for (const auto& v : face.vertices) {
+            cx += v.x;
+            cy += v.y;
+            cz += v.z;
+        }
+        centroid[face.id] = vertex(cx / n, cy / n, cz / n, face.id);
+        centroid[face.id].normalize();
+    }
+    
+    for (size_t i = 0; i < faces.size(); ++i) {
+        for (size_t j = i + 1; j < faces.size(); ++j) {
+            int shared = 0;
+            for (const auto& vi : faces[i].vertices) {
+                for (const auto& vj : faces[j].vertices) {
+                    if (vi == vj) shared++;
+                }
+            }
+            if (shared == 2) {
+                M[faces[i].id].push_back(faces[j].id);
+                M[faces[j].id].push_back(faces[i].id);
+            }
+        }
+    }
+    vector<Edge> dual_edges;
+    unsigned int id_edg = 0;
+
+    for (size_t i = 0; i < faces.size(); ++i) {
+        unsigned int fid = faces[i].id;
+        for (unsigned int adj_id : M[fid]) {
+            bool already_added = false;
+            for (const auto& e : dual_edges) {
+                if ((e.origin == centroid[fid] && e.end == centroid[adj_id]) ||
+                    (e.end == centroid[fid] && e.origin == centroid[adj_id])) {
+                    already_added = true;
+                    break;
+                }
+            }
+
+            if (!already_added) {
+                Edge e(centroid[fid], centroid[adj_id], id_edg++);
+                dual_edges.push_back(e);
+            }
+        }
+    }
+	cout << "--0"<<endl;
+	
+    for (const auto& e : dual_edges) {
+        cout << "Edge " << e.id << ": (" << e.origin.x << ", " << e.origin.y << ", " << e.origin.z
+             << ") -> (" << e.end.x << ", " << e.end.y << ", " << e.end.z
+             << ") length: " << e.length() << "\n";
+    }
+	cout << "--0"<<endl;
+}
+		
+	void printFaces() {
     			for(auto face: faces){
 				printFace(face);
 				}
 				}
+	
 
     };
 
