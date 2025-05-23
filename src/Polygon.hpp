@@ -11,7 +11,6 @@ using namespace Eigen;
 
 namespace PolygonalLibrary{
 
-
 class vertex {
 	public:
     double x, y, z;
@@ -47,7 +46,7 @@ class Edge {
 
     Edge() = default;
     Edge(const 	vertex& start, const 	vertex& final, unsigned int code) : origin(start), end(final), id(code) {}
-
+    Edge(const 	vertex& start, const 	vertex& final) : origin(start), end(final) {}	
     double length() const {
         return sqrt((origin.x - end.x) * (origin.x - end.x) +
                     (origin.y - end.y) * (origin.y - end.y) +
@@ -57,11 +56,11 @@ class Edge {
     	        return sqrt((origin.x - end.x) * (origin.x - end.x) +
                     (origin.y - end.y) * (origin.y - end.y));
 	}
-			bool operator==(const Edge& other) const {
+	bool operator==(const Edge& other) const {
    			 return (origin==other.origin && end==other.end);
 		}
 		
-		bool operator!=(const Edge& other) const {
+	bool operator!=(const Edge& other) const {
     		return !(*this == other);
 		}
 };
