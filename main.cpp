@@ -21,7 +21,7 @@ int main()
 	unsigned int p,q,b,c;
 	_Polyhedron pp;
 	cin >> p >> q >> b >> c ;
-				pp=_Polyhedron(t.faces, t.edge, t.vertices,b,c, p,q);
+				pp=_Polyhedron(o.faces,o.edge,o.vertices,b,c, p,q);
 				pp.OverAll_Triangulation();
 				pp.printFaces();
 				pp.GenerateDual();	

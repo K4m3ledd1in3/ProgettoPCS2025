@@ -473,7 +473,7 @@ faces[7] = Face(
 		void First_Triangulation(vector<vertex>&  , 
 						vector <Edge>&, Face& f, unsigned int& , 
 						unsigned int&, unsigned int&,
-						vector<Face>&, bool,Face&);
+						vector<Face>&, bool,vector<vertex>&);
 		void Triangulation_2();
 		void GenerateDual();
 		void printFaces();
