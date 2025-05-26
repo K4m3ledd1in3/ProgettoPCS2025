@@ -16,6 +16,7 @@ int main()
 	Octahedron o;
 	Dodecahedron cc;
 	Icosahedron i;
+<<<<<<< HEAD
     _Polyhedron pp(t.faces, t.edge, t.vertices,5,5, 3,3);
     pp.Triangulation_2();	
    	pp.GenerateDual();
@@ -33,6 +34,12 @@ int main()
 							
                    
 
+=======
+     _Polyhedron pp(t.faces, t.edge, t.vertices,5,5, 3,3);
+     pp.Triangulation_2();	
+   	 pp.GenerateDual();
+     pp.printFaces();
+>>>>>>> dadd1b56d30ee0e82b06640aaf43cf94a40d8be7
 	return 0;
 
 
