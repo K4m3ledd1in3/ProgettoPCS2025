@@ -452,6 +452,7 @@ faces[7] = Face(
 		unsigned int NumVer;
 		unsigned int NumEdg;
 		unsigned int NumFcs;
+		_Polyhedron()=default;
 		_Polyhedron(
 		vector<Face> fcs, vector<Edge> edgs, vector<vertex> vrtcs, 
 		unsigned int b0, unsigned int c0, unsigned int p0, unsigned int q0
@@ -463,12 +464,16 @@ faces[7] = Face(
 			c = c0;
 			p = p0;
 			q = q0;
-		}	
+		}
+		void Unique_V();	
+		void Unique_E();
+		void Restore_F();
+		void OverAll_Triangulation();
   		void Triangulation();
 		void First_Triangulation(vector<vertex>&  , 
 						vector <Edge>&, Face& f, unsigned int& , 
 						unsigned int&, unsigned int&,
-						vector<Face>&, bool);
+						vector<Face>&, bool,Face&);
 		void Triangulation_2();
 		void GenerateDual();
 		void printFaces();

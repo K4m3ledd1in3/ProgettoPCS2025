@@ -43,8 +43,10 @@ class Edge {
     	vertex origin;
     	vertex end;
     unsigned int id;
+    unsigned int type;
 
     Edge() = default;
+    Edge(const 	vertex& start, const 	vertex& final, unsigned int code, unsigned int _type) : origin(start), end(final), id(code), type(_type) {}
     Edge(const 	vertex& start, const 	vertex& final, unsigned int code) : origin(start), end(final), id(code) {}
     Edge(const 	vertex& start, const 	vertex& final) : origin(start), end(final) {}	
     double length() const {
@@ -83,10 +85,7 @@ class Face {
 };
 
 
-vertex sphericalToCartesian(double phi, double psi);
-Face projectPentagonToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id) ;
-Face projectSquareToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id);
-Face projectTriangleToSphere(double phi, double psi, double dPhi, double dPsi, int& id, int f_id);
+
 void printFace(Face f) ;
 Edge reverseEdge(Edge e);
 //vertex getThirdVertexFromTriangleEdges(const Edge& e0, const Edge& e1);

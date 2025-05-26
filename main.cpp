@@ -10,15 +10,55 @@ using namespace PolyhedronLibrary;
 using namespace std;
 
 int main()
-{	cout << "Tetraedro" << endl;
+{
+	
 	Tetrahedron t;
-	Cube c;
+	Cube C;
 	Octahedron o;
 	Dodecahedron cc;
 	Icosahedron i;
-     _Polyhedron pp(t.faces, t.edge, t.vertices,5,5, 3,3);
-     pp.Triangulation_2();	
-   	 pp.GenerateDual();
-     pp.printFaces();
+	unsigned int p,q,b,c;
+	_Polyhedron pp;
+	cin >> p >> q >> b >> c ;
+				pp=_Polyhedron(t.faces, t.edge, t.vertices,b,c, p,q);
+				pp.OverAll_Triangulation();
+				pp.printFaces();
+				pp.GenerateDual();	
+/*	switch(p){
+		case 3:
+			switch(q){
+				case 3:
+				pp=_Polyhedron(t.faces, t.edge, t.vertices,b,c, p,q);
+				pp.OverAll_Triangulation();
+				pp.printFaces();
+				pp.GenerateDual();
+				case 4:
+				pp=_Polyhedron(o.faces, o.edge, o.vertices,b,c, p,q);
+				pp.OverAll_Triangulation();
+				pp.printFaces();
+				pp.GenerateDual();	
+				case 5:
+				pp=_Polyhedron(i.faces, i.edge, i.vertices,b,c,p,q);
+				pp.OverAll_Triangulation();
+				pp.printFaces();
+				pp.GenerateDual();					
+			}
+			break;
+		case 4:
+			if(q==3){
+				pp=_Polyhedron(C.faces, C.edge, C.vertices,b,c,p,q);
+				pp.printFaces();
+				pp.GenerateDual();						
+			}
+			break;
+		case 5:
+			if(q==3){
+				pp=_Polyhedron(cc.faces, cc.edge, cc.vertices,b,c,p,q);
+				pp.printFaces();
+				pp.GenerateDual();						
+			}
+			break;
+		default: break;
+	}*/
 	return 0;
 }
