@@ -12,23 +12,28 @@ using namespace std;
 int main()
 {	cout << "Tetraedro" << endl;
 	Tetrahedron t;
-	t.printFaces();
-	cout << endl << endl;
-	t.dual().printFaces();
 	Cube c;
-	cout << "Cubo" << endl;
-	c.printFaces();
 	Octahedron o;
-	cout << "Ottaedro" << endl;
-	o.printFaces();
 	Dodecahedron cc;
-	cout << "Dodecaedro" << endl;
-	cc.printFaces();
 	Icosahedron i;
-	cout << "ICC" << endl;
-	i.printFaces();
-	mesh_Polyhedron pp(o.faces, o.edge, o.vertices, 3,0, 3,3);
-	pp.Triangulation();	
-	pp.printFaces();
+    _Polyhedron pp(t.faces, t.edge, t.vertices,5,5, 3,3);
+    pp.Triangulation_2();	
+   	pp.GenerateDual();
+    pp.printFaces();
+	
+
+	
+	Gedim::UCDUtilities utilities;
+    utilities.ExportPoints("./Cell0Ds.inp",
+                        t.vertices);
+
+    utilities.ExportSegments("./Cell1Ds.inp",
+                            t.vertices,
+                            t.edge	);
+							
+                   
+
 	return 0;
+
+
 }
