@@ -477,13 +477,8 @@ faces[7] = Face(
 		void Triangulation_2();
 		void GenerateDual();
 		void printFaces();
-<<<<<<< HEAD
         
 	
     };
 }
-=======
-    };
-}
-
->>>>>>> dadd1b56d30ee0e82b06640aaf43cf94a40d8be7
+   

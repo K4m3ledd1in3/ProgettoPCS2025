@@ -17,7 +17,7 @@ int main()
 	Octahedron o;
 	Dodecahedron cc;
 	Icosahedron i;
-<<<<<<< HEAD
+
 	unsigned int p,q,b,c;
 	_Polyhedron pp;
 	cin >> p >> q >> b >> c ;
@@ -61,32 +61,17 @@ int main()
 			break;
 		default: break;
 	}*/
-=======
-<<<<<<< HEAD
-    _Polyhedron pp(t.faces, t.edge, t.vertices,5,5, 3,3);
-    pp.Triangulation_2();	
-   	pp.GenerateDual();
-    pp.printFaces();
 	
-
-	
-	Gedim::UCDUtilities utilities;
+/*	Gedim::UCDUtilities utilities;
     utilities.ExportPoints("./Cell0Ds.inp",
                         t.vertices);
 
     utilities.ExportSegments("./Cell1Ds.inp",
                             t.vertices,
                             t.edge	);
-							
-                   
 
-=======
-     _Polyhedron pp(t.faces, t.edge, t.vertices,5,5, 3,3);
-     pp.Triangulation_2();	
-   	 pp.GenerateDual();
-     pp.printFaces();
->>>>>>> dadd1b56d30ee0e82b06640aaf43cf94a40d8be7
->>>>>>> 67570a6ce427b2ad0186b358d34f41864499db93
+*/
+
 	return 0;
 
 
