@@ -481,4 +481,6 @@ faces[7] = Face(
 	
     };
 }
-   
+MatrixXd ConvertVerticesToEigen(const std::vector<vertex>& vertices);
+MatrixXi ConvertEdgesToEigen(const std::vector<Edge>& edges);
+        

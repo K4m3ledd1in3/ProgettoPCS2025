@@ -904,6 +904,27 @@ namespace PolyhedronLibrary{
         vertex_to_faces[v.id].push_back(face.id);
     }
 	}
-	}		
-	
+	}
+    #include <Eigen/Dense>
+
+    
+        
 }
+MatrixXd ConvertVerticesToEigen(const std::vector<vertex>& vertices) {
+        MatrixXd points(3, vertices.size());
+        for (size_t i = 0; i < vertices.size(); ++i) {
+            points(0, i) = vertices[i].x;
+            points(1, i) = vertices[i].y;
+            points(2, i) = vertices[i].z;
+        }
+        return points;
+    }
+
+    MatrixXi ConvertEdgesToEigen(const std::vector<Edge>& edges) {
+        MatrixXi segments(2, edges.size());
+        for (size_t i = 0; i < edges.size(); ++i) {
+            segments(0, i) = edges[i].origin.id;
+            segments(1, i) = edges[i].end.id;
+        }
+        return segments;
+    }

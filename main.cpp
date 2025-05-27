@@ -8,7 +8,7 @@ using namespace Eigen;
 using namespace PolygonalLibrary;
 using namespace PolyhedronLibrary;
 using namespace std;
-
+using namespace Gedim;
 int main()
 {
 	
@@ -71,6 +71,19 @@ int main()
                             t.edge	);
 
 */
+
+
+    // Conversione dei dati a Eigen
+    MatrixXd points = ConvertVerticesToEigen(pp.vertices);
+    MatrixXi segments = ConvertEdgesToEigen(pp.edges);
+
+    // Esportazione in UCD
+    UCDUtilities utilities;
+    utilities.ExportPoints("TetrahedronPoints.inp", points);
+    utilities.ExportSegments("TetrahedronSegments.inp", points, segments);
+
+    cout << "Esportazione completata. Apri i file .inp con ParaView.\n";
+
 
 	return 0;
 
