@@ -547,7 +547,7 @@ namespace PolyhedronLibrary{
     unsigned int& ce,
     unsigned int& cf,
     vector<Face>& fill,
-    bool flag, vector<vertex>& neigh //devi calibrare il primo vertice, col vertice che avevi inteso.
+    bool flag
 )
 {
     const double heightRatio = sqrt(3.0) / 4.0;
@@ -640,18 +640,44 @@ namespace PolyhedronLibrary{
         Edge(shared02, shared01, ce++)
     }, cf++, 0);
 
-    fill.insert(fill.end(), {face0, face1, face2, face3, face4, face5, face6});
+    fill.insert(fill.end(), {face0, face1, face2, face3, face4, face5/*, face0, face1, face6*/});
 }
+	void _Polyhedron::Second_Triangulation_Lower(
+	vector<vertex>& vertices,
+    vector<Edge>& edges,
+    vector<Face>& _f_,
+    unsigned int& cv,
+    unsigned int& ce,
+    unsigned int& cf,
+    vector<Face>& fill,
+    bool flag, vector<vertex>& neigh){
+	}
+	void Second_Triangulation_Lateral(vector<vertex>&,
+    								vector<Edge>&,
+    								vector<Face>&,
+    								unsigned int&,
+    								unsigned int&,
+    								unsigned int&,
+    								vector<Face>&,
+    								bool, 
+									vector<vertex>&){									
+	}	
     void _Polyhedron::Triangulation_2() {
     vector<Edge> edges_1;
     vector<Face> faces_1;
     vector<vertex> ver_1;
     vector<vertex> ver_2;
 	vector<Face> faces_2;
-	vector<Edge> edges_2;
+	vector<Edge> edges_2;	
+    vector<vertex> ver_3;
+	vector<Face> faces_3;
+	vector<Edge> edges_3;	
 	unsigned int id_f1=0;
 	unsigned int id_v1=0;
 	unsigned int id_e1=0;
+	unsigned int id_f2=0;
+	unsigned int id_v2=0;
+	unsigned int id_e2=0;
         if (p == 3) {
             unsigned int T = b * b + c * b + c * c;
 
@@ -668,14 +694,10 @@ namespace PolyhedronLibrary{
             }
 
             faces_1.reserve(NumFcs);
-           // faces_2.reserve(NumFcs);
-           // edges_2.reserve(NumEdg);
-           // ver_2.reserve(NumVer);
             edges_1.reserve(NumEdg);
             edges.reserve(NumEdg);
             vertices.reserve(NumVer);
             ver_1.reserve(NumVer);
-
             unsigned int id_edge = 0;
             unsigned int id_faces = 0;
             vertex v;
@@ -687,8 +709,8 @@ namespace PolyhedronLibrary{
         		b=c;
 			}else{
 				c=b;
-			}
-    for (size_t i = 0; i < faces.size(); i++) {
+			}				
+  			for (size_t i = 0; i < faces.size(); i++) {
                for (size_t k = 0; k < b ; k++) {
                     Triangle[k].resize(k + 2);
 					vertex v0;
@@ -757,27 +779,25 @@ namespace PolyhedronLibrary{
         		cv++
     		);	
 			}
-                    Triangle[k][0] = v0;
-                    Triangle[k][k+1] = v1;
-                    for (size_t j = 0; j < k; j++) {				
-                    double t = double(j+1) / (k + 1);
+                Triangle[k][0] = v0;
+                Triangle[k][k+1] = v1;
+                for (size_t j = 0; j < k; j++) {				
+                double t = double(j+1) / (k + 1);
 					vertex v2(
     				v0.x + t * (v1.x - v0.x),
  				   	v0.y + t * (v1.y - v0.y),
     				v0.z + t * (v1.z - v0.z),
     				cv++
-					);
-                        Triangle[k][j+1] = v2; 
-                    }
-                    bool flg=false;
-                    if (k > 0) {
-                        for (size_t j = 0; j < k + 1 ; j++) {
-                            
+				);
+                Triangle[k][j+1] = v2; 
+                }
+                bool flg=false;
+                if (k > 0) {
+                    for (size_t j = 0; j < k + 1 ; j++) {   
                          if (j + 1 >= Triangle[k].size() || j >= Triangle[k - 1].size()) continue;
 						    Edge e1(Triangle[k][j], Triangle[k][j + 1], id_edge++);	
 							Edge e2(Triangle[k][j + 1], Triangle[k - 1][j], id_edge++);
                             Edge e0(Triangle[k - 1][j], Triangle[k][j], id_edge++);
-
                             vector<Edge> _e = {e0, e1, e2};
                             vector<vertex> ver = {Triangle[k - 1][j], Triangle[k][j], Triangle[k][j + 1]};
                             if(j>0){		
@@ -789,15 +809,14 @@ namespace PolyhedronLibrary{
                             faces_1.push_back(fb_1);
                             flg=true;
                             vector<vertex> _v_ = {};
-                            First_Triangulation(ver_2,edges_2,fb_1,id_v1,id_e1,id_f1,faces_2,flg, _v_);
-
+                            First_Triangulation(ver_2,edges_2,fb_1,id_v1,id_e1,id_f1,faces_2,flg);
 						    }
 						    Face fb(ver, _e, id_faces++, 0);
                             faces_1.push_back(fb);
                             flg=true;
                             Face miss;
                             vector<vertex> _v_ = {};
-                            First_Triangulation(ver_2,edges_2,fb,id_v1,id_e1,id_f1,faces_2,flg, _v_);
+                            First_Triangulation(ver_2,edges_2,fb,id_v1,id_e1,id_f1,faces_2,flg);
                             edges_1.push_back(e1); 
 							edges_1.push_back(e2);
 							edges_1.push_back(e0);
@@ -805,9 +824,9 @@ namespace PolyhedronLibrary{
                             ver_1.push_back(Triangle[k][j]);
                             ver_1.push_back(Triangle[k][j + 1]);
                         }
-                    } else if(k==0) {
+                    } 
+					else if(k==0) {
                     	vertex c;
-
                         Edge e0(v, v0, id_edge++);
                         Edge e1(v0, v1, id_edge++);
                         Edge e2(v1, v, id_edge++);
@@ -817,9 +836,7 @@ namespace PolyhedronLibrary{
                         faces_1.push_back(fb);
                         flg=false;
                          vector<vertex> _v_ ={};
-                        First_Triangulation(ver_2,edges_2,fb,id_v1,id_e1,id_f1,faces_2,flg,_v_);
-						//faces_2.push_back(miss);
-						//printFace(miss);
+                        First_Triangulation(ver_2,edges_2,fb,id_v1,id_e1,id_f1,faces_2,flg);
                         edges_1.push_back(e0);
                         edges_1.push_back(e1);
                         edges_1.push_back(e2);
@@ -828,12 +845,11 @@ namespace PolyhedronLibrary{
                         ver_1.push_back(v1);
                     }
                 }
-            }
+            }   
         }
     edges = edges_2;
     faces = faces_2;
-        } 
-		
+        } 	
 		void _Polyhedron::OverAll_Triangulation(){
 			if ((b == 0 && c > 0) || (b >0 && c == 0)) {
 				_Polyhedron::Triangulation();
@@ -856,7 +872,6 @@ namespace PolyhedronLibrary{
         centroid[face.id] = vertex(cx / n, cy / n, cz / n);
         centroid[face.id].normalize();
     	}
-    
    	 	for (size_t i = 0; i < faces.size(); ++i) {
         	for (size_t j = i + 1; j < faces.size(); ++j) {
             	int shared = 0;
@@ -884,7 +899,6 @@ namespace PolyhedronLibrary{
                     			break;
                 }
             }
-
             if (!already_added) {
                 Edge e(centroid[fid], centroid[adj_id], id_edg++);
                 dual_edges.push_back(e);
@@ -896,8 +910,7 @@ namespace PolyhedronLibrary{
              << ") -> (" << e.end.x << ", " << e.end.y << ", " << e.end.z
              << ") length: " << e.length() << "\n";
     }
-
-	
+	//bulk of the face.	
 	map<unsigned int, vector<unsigned int>> vertex_to_faces;
 	for (const auto& face : faces) {
     for (const auto& v : face.vertices) {

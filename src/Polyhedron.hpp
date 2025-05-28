@@ -37,10 +37,10 @@ namespace PolyhedronLibrary{
 		 edge = {Edge(vertices[0], vertices[1], 0),Edge(vertices[0], vertices[2], 1),
 		 		Edge(vertices[0], vertices[3], 2),Edge(vertices[1], vertices[2], 3),
 				Edge(vertices[1], vertices[3], 4),Edge(vertices[2], vertices[3], 5)};
-		vector<Edge> buff_1 = {edge[0],edge[3],reverseEdge(edge[1])}; // v0, v1, v2
-		vector<Edge> buff_2 = {edge[3], edge[5], reverseEdge(edge[4])}; // v2,v3,v1
-		vector<Edge> buff_3 = {edge[1],edge[5], reverseEdge(edge[2])}; // v0,v2,v3
-		vector<Edge> buff_4 = {edge[0], edge[4], reverseEdge(edge[2])}; // v0,v1,v3
+		vector<Edge> buff_1 = {edge[0],edge[3],reverseEdge(edge[1])}; 
+		vector<Edge> buff_2 = {edge[3], edge[5], reverseEdge(edge[4])};
+		vector<Edge> buff_3 = {edge[1],edge[5], reverseEdge(edge[2])}; 
+		vector<Edge> buff_4 = {edge[0], edge[4], reverseEdge(edge[2])}; 
 		vector<vertex> buff_v_1 = {vertices[0], vertices[1], vertices[2]};
 		vector<vertex> buff_v_2 = {vertices[1], vertices[2], vertices[3]};
 		vector<vertex> buff_v_3 = {vertices[0], vertices[2], vertices[3]};
@@ -146,31 +146,29 @@ Cube() {
     faces.resize(nfaces);
 
     vertices = {
-        vertex(1.0, 0.0, 0.0, 0), // v0
-        vertex(-1.0, 0.0, 0.0, 1), // v1
-        vertex(0.0, 1.0, 0.0, 2), // v2
-        vertex(0.0, -1.0, 0.0, 3), // v3
-        vertex(0.0, 0.0, 1.0, 4), // v4 
-        vertex(0.0, 0.0, -1.0, 5)  // v5 
+        vertex(1.0, 0.0, 0.0, 0),
+        vertex(-1.0, 0.0, 0.0, 1),
+        vertex(0.0, 1.0, 0.0, 2),
+        vertex(0.0, -1.0, 0.0, 3),
+        vertex(0.0, 0.0, 1.0, 4), 
+        vertex(0.0, 0.0, -1.0, 5)  
     };
-
     for (size_t i = 0; i < nvertices; ++i) {
         vertices[i].normalize();
     }
-
     edge = {
-        Edge(vertices[0], vertices[2], 0),   // v0 -> v2
-        Edge(vertices[0], vertices[3], 1),   // v0 -> v3
-        Edge(vertices[0], vertices[4], 2),   // v0 -> v4
-        Edge(vertices[0], vertices[5], 3),   // v0 -> v5
-        Edge(vertices[1], vertices[2], 4),   // v1 -> v2
-        Edge(vertices[1], vertices[3], 5),   // v1 -> v3
-        Edge(vertices[1], vertices[4], 6),   // v1 -> v4
-        Edge(vertices[1], vertices[5], 7),   // v1 -> v5
-        Edge(vertices[2], vertices[4], 8),   // v2 -> v4
-        Edge(vertices[2], vertices[5], 9),   // v2 -> v5
-        Edge(vertices[3], vertices[4],10),   // v3 -> v4
-        Edge(vertices[3], vertices[5],11)    // v3 -> v5
+        Edge(vertices[0], vertices[2], 0),  
+        Edge(vertices[0], vertices[3], 1),   
+        Edge(vertices[0], vertices[4], 2),  
+        Edge(vertices[0], vertices[5], 3),   
+        Edge(vertices[1], vertices[2], 4), 
+        Edge(vertices[1], vertices[3], 5), 
+        Edge(vertices[1], vertices[4], 6), 
+        Edge(vertices[1], vertices[5], 7),  
+        Edge(vertices[2], vertices[4], 8),
+        Edge(vertices[2], vertices[5], 9), 
+        Edge(vertices[3], vertices[4],10),
+        Edge(vertices[3], vertices[5],11)    
     };
 
 faces[0] = Face(  
@@ -187,40 +185,12 @@ faces[1] = Face(
 
 faces[2] = Face(  
     {vertices[1], vertices[3], vertices[4]},
-    {edge[5], edge[10], reverseEdge(edge[6])},
-    2, 0
-);
-
-faces[3] = Face(  
-    {vertices[3], vertices[0], vertices[4]},
-    {edge[1], edge[2], reverseEdge(edge[10])},
-    3, 0
-);
-
-
-faces[4] = Face(  
-    {vertices[2], vertices[0], vertices[5]},
-    {reverseEdge(edge[0]), edge[3], edge[9]},
-    4, 0
-);
-
-faces[5] = Face( 
-    {vertices[1], vertices[2], vertices[5]},
-    {reverseEdge(edge[4]), reverseEdge(edge[9]), edge[7]},
-    5, 0
-);
-
-faces[6] = Face( 
-    {vertices[3], vertices[1], vertices[5]},
-    {reverseEdge(edge[5]), reverseEdge(edge[7]), edge[11]},
-    6, 0
-);
-
-faces[7] = Face(  
-    {vertices[0], vertices[3], vertices[5]},
-    {reverseEdge(edge[1]), reverseEdge(edge[11]), reverseEdge(edge[3])},
-    7, 0
-);
+    {edge[5], edge[10], reverseEdge(edge[6])},2, 0);
+faces[3] = Face({vertices[3], vertices[0], vertices[4]},{edge[1], edge[2], reverseEdge(edge[10])}, 3, 0);
+faces[4] = Face({vertices[2], vertices[0], vertices[5]},{reverseEdge(edge[0]), edge[3], edge[9]},4, 0);
+faces[5] = Face({vertices[1], vertices[2], vertices[5]},{reverseEdge(edge[4]), reverseEdge(edge[9]), edge[7]},5, 0);
+faces[6] = Face({vertices[3], vertices[1], vertices[5]},{reverseEdge(edge[5]), reverseEdge(edge[7]), edge[11]},6, 0);
+faces[7] = Face({vertices[0], vertices[3], vertices[5]},{reverseEdge(edge[1]), reverseEdge(edge[11]), reverseEdge(edge[3])},7, 0);
 }
 		void display() const;
 		void printFaces();
@@ -295,8 +265,6 @@ faces[7] = Face(
 
     faces[5] = Face({vertices[7], vertices[19], vertices[11], vertices[18], vertices[6]},
                     {edge[25], edge[26], edge[27], re(edge[12]), re(edge[15])}, 5, 0);
-
-
     Edge e30 = e(9,11,30);
     Edge e31 = e(11,19,31);
     Edge e32 = e(19,3,32);
@@ -304,7 +272,6 @@ faces[7] = Face(
     Edge e34 = e(15,9,34);
     faces[6] = Face({vertices[9], vertices[11], vertices[19], vertices[3], vertices[15]},
                     {e30, e31, e32, e33, e34}, 6, 0);
-
     Edge e35 = e(9,15,35);
     Edge e36 = e(15,5,36);
     Edge e37 = e(5,4,37);
@@ -323,16 +290,12 @@ faces[7] = Face(
     Edge e42 = e(13,8,42);
     faces[10] = Face({vertices[13], vertices[8], vertices[12], vertices[4], vertices[5]},
                      {e42, edge[6], re(edge[3]), re(edge[2]), re(e37)}, 10, 0);
-
     faces[11] = Face({vertices[13], vertices[5], vertices[15], vertices[3], vertices[1]},
                      {re(e41), re(e36), re(e33), re(edge[22]), re(edge[21])}, 11, 0);
 }
-
 		void display() const;
 		void printFaces();		
 	};	
-	
-
 	class Icosahedron{
 		public:
 		vector<Face> faces;
@@ -471,14 +434,33 @@ faces[7] = Face(
 		void OverAll_Triangulation();
   		void Triangulation();
 		void First_Triangulation(vector<vertex>&  , 
-						vector <Edge>&, Face& f, unsigned int& , 
-						unsigned int&, unsigned int&,
-						vector<Face>&, bool,vector<vertex>&);
+								vector <Edge>&, Face&, 
+								unsigned int& , 
+								unsigned int&,
+								unsigned int&,
+								vector<Face>&, 
+								bool);
 		void Triangulation_2();
 		void GenerateDual();
 		void printFaces();
-        
-	
+		void Second_Triangulation_Lower(vector<vertex>& vertices,
+    								vector<Edge>& edges,
+    								vector<Face>&,
+    								unsigned int& cv,
+    								unsigned int& ce,
+    								unsigned int& cf,
+    								vector<Face>& fill,
+    								bool flag, vector<vertex>& neigh);
+    	void Second_Triangulation_Lateral(vector<vertex>&,
+    								vector<Edge>&,
+    								vector<Face>&,
+    								unsigned int&,
+    								unsigned int&,
+    								unsigned int&,
+    								vector<Face>&,
+    								bool, 
+									vector<vertex>&);
+    						
     };
 }
 MatrixXd ConvertVerticesToEigen(const std::vector<vertex>& vertices);
