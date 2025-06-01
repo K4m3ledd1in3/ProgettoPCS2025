@@ -6,7 +6,6 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
-#include <algorithm>
 using namespace std;
 using namespace Eigen;
 using namespace PolygonalLibrary;
@@ -439,14 +438,12 @@ faces[7] = Face({vertices[0], vertices[3], vertices[5]},{reverseEdge(edge[1]), r
 								unsigned int&,
 								unsigned int&,
 								vector<Face>&, 
-								bool);
+								unsigned int, 
+								size_t, size_t, 
+                             	map<size_t, map<size_t,vertex>>&,map<size_t, map<size_t,vertex>>& );
 		void Triangulation_2();
 		void GenerateDual();
 		void printFaces();
-<<<<<<< HEAD
-        
-        
-=======
 		void Second_Triangulation_Lower(vector<vertex>& vertices,
     								vector<Edge>& edges,
     								vector<Face>&,
@@ -464,18 +461,21 @@ faces[7] = Face({vertices[0], vertices[3], vertices[5]},{reverseEdge(edge[1]), r
     								vector<Face>&,
     								bool, 
 									vector<vertex>&);
-    						
->>>>>>> 5d45383a261e03779baeef35cfc3489e11c46a20
+
     };
+
     std::vector<PolygonalLibrary::vertex> ShortestPath(
     std::vector<PolygonalLibrary::vertex>& vertices,
     std::vector<PolygonalLibrary::Edge>& edges,
     unsigned int id1, unsigned int id2) ;
-       
+    MatrixXd ConvertVerticesToEigen(const std::vector<vertex>& vertices);
+    MatrixXi ConvertEdgesToEigen(const std::vector<Edge>& edges);
 }
 /*
 MatrixXd ConvertVerticesToEigen(const std::vector<vertex>& vertices);
 MatrixXi ConvertEdgesToEigen(const std::vector<Edge>& edges);
 vector<std::vector<unsigned int>> ConvertFacesToVector(const std::vector<Face>& faces);*/
+
+
 
         

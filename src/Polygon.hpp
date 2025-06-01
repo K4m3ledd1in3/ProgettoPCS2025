@@ -7,8 +7,6 @@
 #include <cmath>
 using namespace std;
 using namespace Eigen;
-
-
 namespace PolygonalLibrary{
 
 class vertex {

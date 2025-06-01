@@ -9,63 +9,11 @@ using namespace PolyhedronLibrary;
 using namespace std;
 using namespace Gedim;
 
-<<<<<<< HEAD
 int main() {
     unsigned int p, q, b, c;
     cout << "Inserisci p, q, b, c (esempio 3 5 1 0): ";
     cin >> p >> q >> b >> c;
-=======
-	unsigned int p,q,b,c;
-	_Polyhedron pp;
-	cin >> p >> q >> b >> c ;
-				pp=_Polyhedron(i.faces,i.edge,i.vertices,b,c, p,q);
-				pp.OverAll_Triangulation();
-				pp.printFaces();
-				pp.GenerateDual();	
-/*	switch(p){
-		case 3:
-			switch(q){
-				case 3:
-				pp=_Polyhedron(t.faces, t.edge, t.vertices,b,c, p,q);
-				pp.OverAll_Triangulation();
-				pp.printFaces();
-				pp.GenerateDual();
-				case 4:
-				pp=_Polyhedron(o.faces, o.edge, o.vertices,b,c, p,q);
-				pp.OverAll_Triangulation();
-				pp.printFaces();
-				pp.GenerateDual();	
-				case 5:
-				pp=_Polyhedron(i.faces, i.edge, i.vertices,b,c,p,q);
-				pp.OverAll_Triangulation();
-				pp.printFaces();
-				pp.GenerateDual();					
-			}
-			break;
-		case 4:
-			if(q==3){
-				pp=_Polyhedron(C.faces, C.edge, C.vertices,b,c,p,q);
-				pp.printFaces();
-				pp.GenerateDual();						
-			}
-			break;
-		case 5:
-			if(q==3){
-				pp=_Polyhedron(cc.faces, cc.edge, cc.vertices,b,c,p,q);
-				pp.printFaces();
-				pp.GenerateDual();						
-			}
-			break;
-		default: break;
-	}*/
-	
-/*	Gedim::UCDUtilities utilities;
-    utilities.ExportPoints("./Cell0Ds.inp",
-                        t.vertices);
->>>>>>> 5d45383a261e03779baeef35cfc3489e11c46a20
-
     _Polyhedron pp;
-
     // Costruisci il poliedro in base a p, q, b, c
     if (p == 3 && q == 3) {
         Tetrahedron t;
@@ -90,7 +38,7 @@ int main() {
     pp.OverAll_Triangulation();
     pp.printFaces();  // Stampa facce generate (facoltativo)
     pp.GenerateDual(); // Genera duale (facoltativo)
-
+    
     // Mostra i vertici generati (per scegliere ID)
     cout << "\nVertici generati:\n";
     for (size_t i = 0; i < pp.vertices.size(); i++) {
