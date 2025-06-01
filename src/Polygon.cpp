@@ -13,7 +13,6 @@ void printFace(Face f) {
 
     for (auto e : f.edges) {
     if(e.id!=4294967295){
-		
         cout << "Edge ID: " << e.id 
              << " | From: (" << e.origin.x << ", " << e.origin.y << ", " << e.origin.z << ")"
              << " To: (" << e.end.x << ", " << e.end.y << ", " << e.end.z << ")"
