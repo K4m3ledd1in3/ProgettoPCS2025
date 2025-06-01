@@ -41,9 +41,9 @@ int main() {
     
     // Mostra i vertici generati (per scegliere ID)
     cout << "\nVertici generati:\n";
-    for (size_t i = 0; i < pp.vertices.size(); i++) {
-        cout << "ID: " << pp.vertices[i].id
-             << " - (" << pp.vertices[i].x << ", " << pp.vertices[i].y << ", " << pp.vertices[i].z << ")\n";
+    for (auto v : pp.vertices) {
+        cout << "ID: " << v.id
+             << " - (" << v.x << ", " << v.y << ", " << v.z << ")\n";
     }
 
     // Input ID vertici per il cammino minimo

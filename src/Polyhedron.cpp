@@ -11,7 +11,7 @@ using namespace Eigen;
 using namespace PolygonalLibrary;
 namespace PolyhedronLibrary{
 
-	std::vector<PolygonalLibrary::vertex> ShortestPath(
+std::vector<PolygonalLibrary::vertex> ShortestPath(
     std::vector<PolygonalLibrary::vertex>& vertices,
     std::vector<PolygonalLibrary::Edge>& edges,
     unsigned int id1, unsigned int id2) {
@@ -120,9 +120,9 @@ namespace PolyhedronLibrary{
     return path_vertices;
 }
 
-	vector<vertex> ShortestPath(vector<vertex>& v, vector<Edge>& e){
+	/*vector<vertex> ShortestPath(vector<vertex>& v, vector<Edge>& e){
 		return v;
-	}
+	}*/
 	void Icosahedron::display() const{
 			for(size_t i=0; i<vertices.size(); i++){
 				cout << "(" << this->vertices[i].x << "," << this->vertices[i].y << "," << this->vertices[i].z << ")" << endl;}
@@ -362,6 +362,7 @@ namespace PolyhedronLibrary{
     }   
     edges = edges_1;
     faces = faces_1;
+    vertices = ver_1;
         }
 
 	//Apex will have as second ID, the code the layer in which will comunicate, and an third id referred  its position.
@@ -619,6 +620,43 @@ edge_midEdge0_to_shared02,edge_shared12_to_center,edge_shared02_to_center
 	edge_shared02_to_apex});
 	}
 }
+void Assembler( 
+						map<size_t, map<size_t,vertex>>& Triangle,
+						map<size_t, map<size_t,vertex>>& TC,
+						size_t k, 
+						size_t j , 
+						unsigned int code,
+						vector<Face>& fill, 
+						unsigned int& cf,
+						unsigned int& ce)
+		{
+		
+		if(code==0){
+			Edge e0(TC[k][j], TC[k+1][j+1], ce++);
+			Edge e1(TC[k+1][j+1], Triangle[k][j], ce++ );
+			Edge e2(TC[k+1][j+1], Triangle[k][j+1], ce++);
+			Edge e3(TC[k][j], Triangle[k][j], ce++);
+			Edge e4(TC[k][j], Triangle[k][j+1], ce++);
+			Face f0({TC[k][j], TC[k+1][j+1], Triangle[k][j+1]}, {e0,e2,reverseEdge(e4)}, cf++,0);
+			Face f1({TC[k][j], TC[k+1][j+1],Triangle[k][j]} , {e0,e1,reverseEdge(e3)}, cf++,0);
+					}				
+		if(code==11){
+			
+		}		
+		if(code==13){
+			
+		}
+		if(code==21){
+			
+		}
+		if(code==22){
+			
+		}
+		if(code==23){
+			
+		}
+		}
+
 	
     void _Polyhedron::Triangulation_2() {
     vector<Edge> edges_1;
@@ -823,6 +861,7 @@ edge_midEdge0_to_shared02,edge_shared12_to_center,edge_shared02_to_center
         }
     edges = edges_2;
     faces = faces_2;
+    vertices = ver_2;
         } 		
 	void _Polyhedron::OverAll_Triangulation(){
 			if ((b == 0 && c > 0) || (b >0 && c == 0)) {

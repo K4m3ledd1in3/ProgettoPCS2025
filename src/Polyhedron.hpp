@@ -444,23 +444,16 @@ faces[7] = Face({vertices[0], vertices[3], vertices[5]},{reverseEdge(edge[1]), r
 		void Triangulation_2();
 		void GenerateDual();
 		void printFaces();
-		void Second_Triangulation_Lower(vector<vertex>& vertices,
-    								vector<Edge>& edges,
-    								vector<Face>&,
-    								unsigned int& cv,
-    								unsigned int& ce,
-    								unsigned int& cf,
-    								vector<Face>& fill,
-    								bool flag, vector<vertex>& neigh);
-    	void Second_Triangulation_Lateral(vector<vertex>&,
-    								vector<Edge>&,
-    								vector<Face>&,
-    								unsigned int&,
-    								unsigned int&,
-    								unsigned int&,
-    								vector<Face>&,
-    								bool, 
-									vector<vertex>&);
+		void Assembler( map<size_t, map<size_t,vertex>>&,
+						map<size_t, map<size_t,vertex>>&,
+						size_t, 
+						size_t, 
+						unsigned int,
+						vector<Face>&, 
+						unsigned int&,
+						unsigned int&
+						);
+
 
     };
 
