@@ -15,6 +15,7 @@ class vertex {
 	public:
     double x, y, z;
     unsigned int id;
+	int ShortPath = 0;
     unsigned int marker;
     	vertex() : x(0), y(0), z(0), marker(0) {}
     	vertex(double _x, double _y, double _z) : x(_x), y(_y), z(_z) {}
@@ -42,6 +43,7 @@ class Edge {
 	public:
     	vertex origin;
     	vertex end;
+		int ShortPath = 0;
     unsigned int id;
     unsigned int type;
 

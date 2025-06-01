@@ -478,9 +478,17 @@ faces[7] = Face(
 		void GenerateDual();
 		void printFaces();
         
-	
+        
     };
+    std::vector<PolygonalLibrary::vertex> ShortestPath(
+    std::vector<PolygonalLibrary::vertex>& vertices,
+    std::vector<PolygonalLibrary::Edge>& edges,
+    unsigned int id1, unsigned int id2) ;
+       
 }
+/*
 MatrixXd ConvertVerticesToEigen(const std::vector<vertex>& vertices);
 MatrixXi ConvertEdgesToEigen(const std::vector<Edge>& edges);
+vector<std::vector<unsigned int>> ConvertFacesToVector(const std::vector<Face>& faces);*/
+
         

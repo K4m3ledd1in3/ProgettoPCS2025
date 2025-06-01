@@ -2,16 +2,122 @@
 #include "Polygon.hpp"
 #include <iostream>
 #include "Polyhedron.hpp"
-
+#include <limits>
+#include <vector>
+#include <set>
 using namespace std;
 using namespace Eigen;
 using namespace PolygonalLibrary;
 
 namespace PolyhedronLibrary{
-	vector<vertex> ShortestPath(vector<vertex>& v, vector<Edge>& e){
-		return v;
-	}
-	
+	std::vector<PolygonalLibrary::vertex> ShortestPath(
+    std::vector<PolygonalLibrary::vertex>& vertices,
+    std::vector<PolygonalLibrary::Edge>& edges,
+    unsigned int id1, unsigned int id2) {
+
+    const int N = vertices.size();
+    std::vector<double> dist(N, std::numeric_limits<double>::infinity());
+    std::vector<int> prev(N, -1);
+    std::vector<bool> visited(N, false);
+
+    dist[id1] = 0.0;
+
+    while (true) {
+        int u = -1;
+        double min_dist = std::numeric_limits<double>::infinity();
+
+        // Trova il vertice non visitato con distanza minima
+        for (int i = 0; i < N; i++) {
+            if (!visited[i] && dist[i] < min_dist) {
+                min_dist = dist[i];
+                u = i;
+            }
+        }
+
+        if (u == -1 || u == id2) break; // Nessun vertice raggiungibile o raggiunto il target
+
+        visited[u] = true;
+
+        // Aggiorna le distanze dei vicini tramite gli archi
+        for (size_t i = 0; i < edges.size(); i++) {
+            unsigned int from = edges[i].origin.id;
+            unsigned int to = edges[i].end.id;
+            double length = edges[i].length();
+
+            if (from == u && dist[to] > dist[u] + length) {
+                dist[to] = dist[u] + length;
+                prev[to] = u;
+            }
+            if (to == u && dist[from] > dist[u] + length) {
+                dist[from] = dist[u] + length;
+                prev[from] = u;
+            }
+        }
+    }
+
+    // Ricostruzione del cammino
+    std::vector<unsigned int> path_ids;
+    int at = id2;
+    if (prev[at] == -1 && at != (int)id1) {
+        std::cout << "Nessun cammino trovato.\n";
+        return std::vector<PolygonalLibrary::vertex>();
+    }
+
+    while (at != -1) {
+        path_ids.push_back(at);
+        at = prev[at];
+    }
+
+    // Inverti il cammino
+    std::vector<unsigned int> correct_path;
+    for (int i = path_ids.size() - 1; i >= 0; i--) {
+        correct_path.push_back(path_ids[i]);
+    }
+
+    // Marcare ShortPath
+    for (size_t i = 0; i < vertices.size(); i++) {
+        vertices[i].ShortPath = 0;
+    }
+    for (size_t i = 0; i < correct_path.size(); i++) {
+        vertices[correct_path[i]].ShortPath = 1;
+    }
+
+    for (size_t i = 0; i < edges.size(); i++) {
+        unsigned int from = edges[i].origin.id;
+        unsigned int to = edges[i].end.id;
+        if (vertices[from].ShortPath && vertices[to].ShortPath) {
+            edges[i].ShortPath = 1;
+        } else {
+            edges[i].ShortPath = 0;
+        }
+    }
+
+    // Calcolo lunghezza e numero lati
+    double total_length = 0.0;
+    int num_edges = correct_path.size() - 1;
+    for (int i = 0; i < num_edges; i++) {
+        unsigned int from = correct_path[i];
+        unsigned int to = correct_path[i+1];
+        for (size_t j = 0; j < edges.size(); j++) {
+            if ((edges[j].origin.id == from && edges[j].end.id == to) ||
+                (edges[j].origin.id == to && edges[j].end.id == from)) {
+                total_length += edges[j].length();
+                break;
+            }
+        }
+    }
+
+    std::cout << "Cammino minimo tra " << id1 << " e " << id2 << ": "
+              << num_edges << " lati, lunghezza totale " << total_length << "\n";
+
+    // Ritorna il cammino come vector di vertex
+    std::vector<PolygonalLibrary::vertex> path_vertices;
+    for (size_t i = 0; i < correct_path.size(); i++) {
+        path_vertices.push_back(vertices[correct_path[i]]);
+    }
+
+    return path_vertices;
+}
 	void Icosahedron::display() const{
 			for(size_t i=0; i<vertices.size(); i++){
 				cout << "(" << this->vertices[i].x << "," << this->vertices[i].y << "," << this->vertices[i].z << ")" << endl;}
@@ -66,7 +172,9 @@ namespace PolyhedronLibrary{
 		printFace(face);
 	}	
 	}
-		void _Polyhedron::Triangulation() {
+
+    //TRIANGOLAZIONE CLASSE I
+	void _Polyhedron::Triangulation() {
     vector<Edge> edges_1;
     vector<Face> faces_1;
     vector<vertex> ver_1;
@@ -841,7 +949,25 @@ namespace PolyhedronLibrary{
 			else if(b>0 && c>0 && b==c){
 				_Polyhedron::Triangulation_2();
 			}
-		}	
+            for (size_t i = 0; i < vertices.size(); i++) {
+            vertices[i].id = i;
+            std::vector<Edge> unique_edges;
+            std::set<std::pair<unsigned int, unsigned int>> edge_set;
+
+            for (const auto& e : edges) {
+                unsigned int a = e.origin.id;
+                unsigned int b = e.end.id;
+                if (a > b) std::swap(a, b);
+                std::pair<unsigned int, unsigned int> edge_pair(a, b);
+                
+                if (edge_set.find(edge_pair) == edge_set.end()) {
+                    edge_set.insert(edge_pair);
+                    unique_edges.push_back(e);
+                }
+}
+
+edges = unique_edges;
+		}	};
 	void _Polyhedron::GenerateDual() {
     	map<unsigned int, vector<unsigned int>> M;  
     	map<unsigned int, vertex> centroid;    
@@ -901,30 +1027,8 @@ namespace PolyhedronLibrary{
 	map<unsigned int, vector<unsigned int>> vertex_to_faces;
 	for (const auto& face : faces) {
     for (const auto& v : face.vertices) {
-        vertex_to_faces[v.id].push_back(face.id);
-    }
+        vertex_to_faces[v.id].push_back(face.id);}
 	}
 	}
-    #include <Eigen/Dense>
-
     
-        
 }
-MatrixXd ConvertVerticesToEigen(const std::vector<vertex>& vertices) {
-        MatrixXd points(3, vertices.size());
-        for (size_t i = 0; i < vertices.size(); ++i) {
-            points(0, i) = vertices[i].x;
-            points(1, i) = vertices[i].y;
-            points(2, i) = vertices[i].z;
-        }
-        return points;
-    }
-
-    MatrixXi ConvertEdgesToEigen(const std::vector<Edge>& edges) {
-        MatrixXi segments(2, edges.size());
-        for (size_t i = 0; i < edges.size(); ++i) {
-            segments(0, i) = edges[i].origin.id;
-            segments(1, i) = edges[i].end.id;
-        }
-        return segments;
-    }
