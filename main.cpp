@@ -36,6 +36,7 @@ int main() {
     }
 
     pp.OverAll_Triangulation();
+    pp.WriteTXT(); // Scrive i dati in file TXT
     pp.printFaces();  // Stampa facce generate (facoltativo)
     pp.GenerateDual(); // Genera duale (facoltativo)
     
@@ -66,5 +67,7 @@ int main() {
         cout << "Nessun cammino trovato.\n";
     }
 
+
+    
     return 0;
 }

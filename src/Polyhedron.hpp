@@ -431,6 +431,7 @@ faces[7] = Face({vertices[0], vertices[3], vertices[5]},{reverseEdge(edge[1]), r
 		void Unique_E();
 		void Restore_F();
 		void OverAll_Triangulation();
+        void WriteTXT() const;
   		void Triangulation();
 		void First_Triangulation(vector<vertex>&  , 
 								vector <Edge>&, Face&, 
